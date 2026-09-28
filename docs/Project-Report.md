@@ -58,6 +58,7 @@ Keywords: React, car rental, reservation, Express, SQLite, date availability, fu
 - References — page 19
 - Appendix — page 20
 - Appendix: Owner and User Accounts — page 21
+- Appendix: Hosted Backend Preparation — page 22
 
 <!-- Page 4 -->
 # List of Abbreviations
@@ -169,7 +170,7 @@ The review supports a three-part design: a component-based client, an authoritat
 <!-- Page 8 -->
 # Scope and Limitations
 
-The implemented scope covers public discovery and private reservation management. Six seeded records represent six physical demo vehicles. Model specifications and daily rates are illustrative data, not verified manufacturer specifications or market quotations. Vehicle photos from Meromoto are included as local assets, with source details in Image-Credits.md. The website uses a grey, black, and white interface.
+The implemented scope covers public discovery and private reservation management. Six seeded records represent six physical demo vehicles. Model specifications and daily rates are illustrative data, not verified manufacturer specifications or market quotations. Vehicle photos from Meromoto are included as local assets, with source details in Image-Credits.md. The website uses a grey, black, and white interface with colour vehicle photos and four-photo galleries. The printed report keeps screenshots in grayscale.
 
 The customer selects one of three pickup cities and returns the vehicle to the same city. The application does not model where a vehicle is physically located, repositioning between cities, pickup times, driver services, maintenance blocks, or turnaround buffers. A return date is exclusive, so another rental can start on that date. These assumptions simplify the demonstration and must be revisited before commercial use.
 
@@ -346,7 +347,7 @@ Himalayan-Wheels/
 
 ## Organization decisions
 
-The client and server are separated by directory and communicate only through the API. The frontend uses reusable components for the logo, vehicle photos, modal, authentication, and booking form. The App component coordinates navigation and shared state. The database module initializes schema and fleet data; app.js defines API rules. OwnerDashboard.jsx renders orders, owners.js provisions owner accounts, and passwords.js shares password hashing.
+The client and server are separated by directory and communicate only through the API. The frontend uses components for vehicle galleries, specifications, dialogs, authentication, and booking. Each vehicle has four colour photos and model-specific travel notes. The App component coordinates navigation and shared state. The database module initializes schema and fleet data; app.js defines API rules. OwnerDashboard.jsx renders orders, owners.js provisions owner accounts, and passwords.js shares password hashing.
 
 Generated dependencies, frontend build output, local logs, and database files are excluded from Git. The source repository retains the dependency lockfile so another developer can reproduce the installation with npm ci. Tests create a disposable database in the operating system temporary directory, avoiding changes to the user's demonstration data.
 
@@ -368,9 +369,9 @@ The following figures were captured from the running application in a desktop br
 
 A visitor can create an account within the booking journey. Password characters are obscured in the interface, and the API validates account details before starting a session.
 
-![Figure 7  Reservation dialog with dates, pickup city and total rental](report-images/04-reservation-crop.png)
+![Figure 7  Vehicle photo gallery, specifications and reservation form](report-images/04-reservation-crop.png)
 
-The example shows a three-day Hyundai Creta booking at NPR 6,500 per day, producing NPR 19,500. The browser displays a preview, while the server recalculates the total from stored fleet data. The interface states that payment is at pickup and no online payment is collected.
+A three-day Hyundai Creta rental at NPR 6,500 per day totals NPR 19,500. The backend recalculates this amount from the stored rate. No online payment is collected.
 
 <!-- Page 16 -->
 # System Screenshots of Bookings and Mobile Layout
@@ -524,3 +525,28 @@ The owner dashboard includes customer names and emails, vehicles, dates, locatio
 ## GitHub demo and verification
 
 The Pages demo offers User and Owner choices without passwords. Create a booking as the demo traveller, sign out, and continue as the demo owner in the same browser. These are browser-only sample orders. Tests cover real owner login, customer isolation, role tampering, database migration, saved orders after restart, cancellation visibility, and responsive browser interaction.
+
+<!-- Page 22 -->
+# Appendix: Hosted Backend Preparation
+
+A hosted Supabase integration is prepared so the React website can use online accounts and shared bookings without keeping a personal computer running. The frontend remains on GitHub Pages. Supabase supplies authentication and a PostgreSQL database. The Express/SQLite implementation remains an optional development alternative.
+
+## Implementation and authorization
+
+supabase/setup.sql defines customer profiles, cars, bookings, row-level security policies, and booking functions. Public registration creates only a customer profile, ignoring any role supplied in signup metadata. Customers read only their own records. An owner-only function returns the customer names and emails needed for the order dashboard.
+
+Booking and cancellation writes are restricted to database functions. The booking function validates dates and location, locks the selected car, checks overlap, derives the price from stored fleet data, and inserts the reservation in a transaction. Browser-supplied totals and direct record changes are not accepted. Passwords are handled by Supabase Auth.
+
+## Connection and owner setup
+
+The project account holder creates a Supabase project and runs setup.sql in its SQL Editor. The project URL and public publishable key are then configured as GitHub repository variables. The Pages workflow switches from the browser demo to cloud mode when configured. Private keys and incomplete cloud settings are rejected during the build. Owner access is assigned to the intended registered account through the project SQL Editor; see Cloud-Setup.md for the exact steps.
+
+Account confirmation requires working email delivery. The app displays a confirmation message when signup does not yet create a session. A classroom demonstration may use unverified email/password accounts, while verified public accounts require suitable email delivery settings. No cloud credentials or passwords are bundled with the source.
+
+## Current status and verification limits
+
+No hosted project is connected at the time of this report update. The public website remains an explicitly labelled browser-only demo. Hosting account sign-in, project initialization, cloud configuration, and live cross-device checks are still required. This section describes prepared functionality, not a completed cloud deployment.
+
+The application SQL was executed in a disposable PostgreSQL-compatible PGlite runtime. Tests passed for customer isolation, owner access, rejected role changes, authoritative prices, overlapping and adjacent bookings, cancellation rules, and repeatable setup. Both the normal and cloud frontend builds passed. These results do not verify an actual Supabase project, email delivery, or hosted concurrency under load.
+
+Supabase references: https://supabase.com/docs/guides/getting-started/quickstarts/reactjs and https://supabase.com/docs/guides/database/postgres/row-level-security. Setup details and provider limitations are recorded in Cloud-Setup.md.

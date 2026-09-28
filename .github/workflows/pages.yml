@@ -1,4 +1,4 @@
-name: Publish website preview
+name: Publish website
 on:
   push:
     branches: [main]
@@ -26,11 +26,14 @@ jobs:
       - run: npm test
       - run: npm run build -- --base=/Himalayan-Wheels-/
         env:
-          VITE_PREVIEW: "true"
+          VITE_PREVIEW: ${{ vars.SUPABASE_URL == '' && 'true' || 'false' }}
+          VITE_BACKEND: ${{ vars.SUPABASE_URL != '' && 'supabase' || '' }}
+          VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - name: Deploy preview
+      - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4

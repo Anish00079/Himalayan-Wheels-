@@ -26,11 +26,16 @@ import {
 } from "lucide-react";
 import "./styles.css";
 import OwnerDashboard from "./OwnerDashboard.jsx";
+import CarDetails from "./CarDetails.jsx";
 import { previewApi } from "./preview-api.js";
 const isPreview = import.meta.env.VITE_PREVIEW === "true";
 
 async function api(path, method = "GET", body) {
   if (isPreview) return previewApi(path, method, body);
+  if (import.meta.env.VITE_BACKEND === "supabase") {
+    const { cloudApi } = await import("./cloud-api.js");
+    return cloudApi(path, method, body);
+  }
   const r = await fetch("/api" + path, {
     method,
     headers: { "Content-Type": "application/json", "X-Himalayan-Wheels": "1" },
@@ -134,6 +139,7 @@ function Auth({ onClose, onLogin, initialRole = "customer" }) {
       ))}
     </div>
   );
+  const [notice, setNotice] = useState("");
   const [register, setRegister] = useState(false),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
@@ -197,13 +203,15 @@ function Auth({ onClose, onLogin, initialRole = "customer" }) {
           e.preventDefault();
           setBusy(true);
           setError("");
+          setNotice("");
           try {
             const data = await api(
               "/auth/" + (register ? "register" : "login"),
               "POST",
               { ...Object.fromEntries(new FormData(e.currentTarget)), role },
             );
-            onLogin(data.user);
+            if (data.user) onLogin(data.user);
+            else setNotice(data.message);
           } catch (e) {
             setError(e.message);
           } finally {
@@ -251,6 +259,11 @@ function Auth({ onClose, onLogin, initialRole = "customer" }) {
             {error}
           </p>
         )}
+        {notice && (
+          <p className="auth-notice" role="status">
+            {notice}
+          </p>
+        )}
         <button className="primary full" disabled={busy}>
           {busy ? "Please wait…" : register ? "Create account" : "Sign in"}
           <ArrowRight size={17} />
@@ -270,8 +283,8 @@ function Auth({ onClose, onLogin, initialRole = "customer" }) {
         </p>
       ) : (
         <p className="muted owner-setup-note">
-          Owner accounts are created by the person running the server. Contact
-          them if you need access.
+          Owner access is enabled by the project administrator. Contact them if
+          you need access.
         </p>
       )}
     </Modal>
@@ -292,18 +305,7 @@ function Booking({ car, trip, user, onClose, onSignIn, onBooked }) {
             {car.category} • {car.transmission}
           </span>
           <h3>{car.name}</h3>
-          <CarPhoto carId={car.id} name={car.name} />
-          <p>{car.description}</p>
-          <div className="specs">
-            <span>
-              <Users size={15} />
-              {car.seats} seats
-            </span>
-            <span>
-              <Fuel size={15} />
-              {car.fuel}
-            </span>
-          </div>
+          <CarDetails key={car.id} car={car} />
         </div>
         <form
           onSubmit={async (e) => {
@@ -903,6 +905,7 @@ function App() {
                         </span>
                       )}
                       <CarPhoto carId={car.id} name={car.name} />
+                      <span className="photo-count">4 photos</span>
                     </div>
                     <div className="car-body">
                       <div className="car-title">
@@ -923,6 +926,7 @@ function App() {
                           {car.fuel}
                         </span>
                       </div>
+                      <p className="card-description">{car.description}</p>
                       <div className="car-bottom">
                         <div>
                           <small>FROM</small>
