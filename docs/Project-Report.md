@@ -351,27 +351,27 @@ A GitHub Actions workflow installs dependencies, runs the API tests, and builds 
 
 The following figures were captured from the running application in a desktop browser. The visible fleet, prices, and accounts are demonstration data. Screenshots illustrate the actual implemented interface rather than a separate design mockup.
 
-![Figure 4  Homepage with illustrated landscape, search fields and navigation](screenshots/01-home.png)
+![Figure 4  Homepage with illustrated landscape, search fields and navigation](report-images/01-home.png)
 
-![Figure 5  Vehicle cards with category controls, model search and pricing](screenshots/02-fleet.png)
+![Figure 5  Vehicle cards with category controls, model search and pricing](report-images/02-fleet.png)
 
 <!-- Page 15 -->
 # System Screenshots of Registration and Reservation
 
-![Figure 6  Registration form with name, email and password inputs](screenshots/03-registration-crop.png)
+![Figure 6  Registration form with name, email and password inputs](report-images/03-registration-crop.png)
 
 A visitor can create an account within the booking journey. Password characters are obscured in the interface, and the API validates account details before starting a session.
 
-![Figure 7  Reservation dialog with dates, pickup city and total rental](screenshots/04-reservation-crop.png)
+![Figure 7  Reservation dialog with dates, pickup city and total rental](report-images/04-reservation-crop.png)
 
 The example shows a three-day Hyundai Creta booking at NPR 6,500 per day, producing NPR 19,500. The browser displays a preview, while the server recalculates the total from stored fleet data. The interface states that payment is at pickup and no online payment is collected.
 
 <!-- Page 16 -->
 # System Screenshots of Bookings and Mobile Layout
 
-![Figure 8  Private booking history and cancellation control](screenshots/05-bookings-crop.png)
+![Figure 8  Private booking history and cancellation control](report-images/05-bookings-crop.png)
 
-![Figure 9 Mobile homepage](screenshots/07-mobile.png)
+![Figure 9 Mobile homepage](report-images/07-mobile.png)
 
 Figure 9 Mobile homepage
 At a 390-pixel viewport, navigation moves into a menu, the hero illustration is repositioned, and the search form becomes a compact stacked layout. Fleet cards become a single column.

@@ -1,11 +1,11 @@
-"""Build the PDF and editable Markdown report. Requires reportlab and Pillow.
+"""Build the black-and-white PDF and editable Markdown report. Requires reportlab and Pillow.
 Run from any directory: python docs/build_report.py
 Edit the content definitions below to regenerate the PDF after customization.
 """
 from pathlib import Path
 import html
 import re
-from PIL import Image as PILImage
+from PIL import Image as PILImage, ImageOps
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image, KeepTogether, Preformatted
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -53,7 +53,7 @@ heading(p,'List of Tables')
 para(p,'Table 1  Functional requirements ............................................. 8<br/>Table 2  Technology stack ....................................................... 9<br/>Table 3  Database entities ....................................................... 11<br/>Table 4  API endpoints ........................................................... 12<br/>Table 5  Validation results ....................................................... 17<br/>Table 6  Runtime configuration ............................................... 20')
 
 p=page('GitHub Repository Link and QR Code')
-para(p,f'The project repository is available at <a href="{REPO}" color="#24513b">{REPO}</a>. The QR code below encodes this HTTPS address, which is suitable for opening in a browser. The SSH clone address supplied for the project is git@github.com:Anish00079/Himalayan-Wheels-.git.')
+para(p,f'The project repository is available at <a href="{REPO}" color="#000000">{REPO}</a>. The QR code below encodes this HTTPS address, which is suitable for opening in a browser. The SSH clone address supplied for the project is git@github.com:Anish00079/Himalayan-Wheels-.git.')
 p.append(('qr',))
 para(p,'The repository groups the React frontend, Express backend, database initializer, test suite, setup guide, deployment starting files, and academic report. The website preview at https://anish00079.github.io/Himalayan-Wheels-/ runs on GitHub Pages. It uses a clearly labelled browser-only demo workspace without passwords or shared bookings. The full-stack build still requires an application host, HTTPS, and persistent database storage.')
 heading(p,'Introduction')
@@ -239,7 +239,7 @@ references=[
  ('Himalayan Wheels','Project source repository',REPO),
 ]
 for i,(author,title,url) in enumerate(references,1):
-    para(p,f'[{i}] {author}. <i>{title}</i>. {"Project repository" if i==10 else "Documentation accessed 28 September 2026"}.<br/><a href="{url}" color="#24513b">{url}</a>')
+    para(p,f'[{i}] {author}. <i>{title}</i>. {"Project repository" if i==10 else "Documentation accessed 28 September 2026"}.<br/><a href="{url}" color="#000000">{url}</a>')
 heading(p,'Source use')
 para(p,'The cited documentation supports the technical design discussion. Package versions in the technology table come from the delivered dependency lockfile. Implementation descriptions and validation results refer to the delivered source and executed tests. The fleet data and rates are project examples and are not attributed to an external rental operator. The original interface illustrations are included as SVG code.')
 
@@ -256,34 +256,36 @@ para(p,'Stop the server before backing up the entire data folder. Do not commit 
 para(p,'Before academic submission, replace the cover-page fields for student name, roll number, institution, course, and supervisor. The editable Markdown report and the Python report source are included so the document can be customized.')
 
 styles=getSampleStyleSheet()
-styles.add(ParagraphStyle(name='BodyX',fontName='Helvetica',fontSize=10.1,leading=14.8,spaceAfter=10,textColor=colors.HexColor('#24312a')))
-styles.add(ParagraphStyle(name='HeadX',fontName='Helvetica-Bold',fontSize=20,leading=25,spaceAfter=18,textColor=colors.black))
-styles.add(ParagraphStyle(name='SubX',fontName='Helvetica-Bold',fontSize=12.1,leading=16,spaceBefore=8,spaceAfter=9,textColor=colors.black,keepWithNext=True))
-styles.add(ParagraphStyle(name='SmallX',fontName='Helvetica',fontSize=8.4,leading=11.3,spaceAfter=8,textColor=colors.HexColor('#667365')))
-styles.add(ParagraphStyle(name='CellX',fontName='Helvetica',fontSize=8.3,leading=11.3,textColor=colors.HexColor('#24312a')))
-styles.add(ParagraphStyle(name='CellHeadX',fontName='Helvetica-Bold',fontSize=8.3,leading=11.3,textColor=colors.white))
-styles.add(ParagraphStyle(name='CaptionX',fontName='Helvetica',fontSize=8,leading=11,spaceBefore=5,spaceAfter=12,textColor=colors.HexColor('#6e7a69')))
-styles.add(ParagraphStyle(name='CodeX',fontName='Courier',fontSize=8.5,leading=12,spaceAfter=14,textColor=colors.HexColor('#344735')))
-styles.add(ParagraphStyle(name='CenterX',fontName='Helvetica',fontSize=11,leading=17,alignment=TA_CENTER,spaceAfter=12,textColor=colors.black))
+styles.add(ParagraphStyle(name='BodyX',fontName='Times-Roman',fontSize=11,leading=15,spaceAfter=10,textColor=colors.black))
+styles.add(ParagraphStyle(name='HeadX',fontName='Times-Bold',fontSize=18,leading=23,spaceAfter=18,textColor=colors.black))
+styles.add(ParagraphStyle(name='SubX',fontName='Times-Bold',fontSize=12,leading=16,spaceBefore=8,spaceAfter=9,textColor=colors.black,keepWithNext=True))
+styles.add(ParagraphStyle(name='SmallX',fontName='Times-Roman',fontSize=9,leading=12,spaceAfter=8,textColor=colors.black))
+styles.add(ParagraphStyle(name='CellX',fontName='Times-Roman',fontSize=9,leading=11.5,textColor=colors.black))
+styles.add(ParagraphStyle(name='CellHeadX',fontName='Times-Bold',fontSize=9,leading=11.5,textColor=colors.black))
+styles.add(ParagraphStyle(name='CaptionX',fontName='Times-Roman',fontSize=9,leading=11.5,spaceBefore=5,spaceAfter=12,textColor=colors.black))
+styles.add(ParagraphStyle(name='CodeX',fontName='Courier',fontSize=8.5,leading=12,spaceAfter=14,textColor=colors.black))
+styles.add(ParagraphStyle(name='CenterX',fontName='Times-Roman',fontSize=12,leading=19,alignment=TA_CENTER,spaceAfter=12,textColor=colors.black))
+styles.add(ParagraphStyle(name='CoverTitle',fontName='Times-Bold',fontSize=24,leading=30,alignment=TA_CENTER,spaceAfter=16,textColor=colors.black))
+styles.add(ParagraphStyle(name='CoverSub',fontName='Times-Bold',fontSize=14,leading=20,alignment=TA_CENTER,spaceAfter=12,textColor=colors.black))
 
 def P(text,style='BodyX'):return Paragraph(text,styles[style])
 def plain(s):return html.unescape(re.sub('<[^>]+>','',s.replace('<br/>','\n')))
 def make_table(caption,headers,rows,widths):
     data=[[P(html.escape(x),'CellHeadX') for x in headers]]+[[P(html.escape(str(x)),'CellX') for x in row] for row in rows]
     t=Table(data,colWidths=widths,repeatRows=1,hAlign='LEFT')
-    t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#2b4739')),('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.white,colors.HexColor('#f2f5ef')]),('GRID',(0,0),(-1,-1),.5,colors.HexColor('#d9d9d9')),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),5),('VALIGN',(0,0),(-1,-1),'MIDDLE')]))
+    t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#eeeeee')),('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.white,colors.white]),('GRID',(0,0),(-1,-1),.5,colors.black),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),5),('VALIGN',(0,0),(-1,-1),'MIDDLE')]))
     return ([P(caption,'CaptionX')] if caption else [])+[t,Spacer(1,12)]
 def diagram(labels,edges,height):
     d=Drawing(CONTENT,height)
     for x,y,w,h,title,detail in labels:
-        d.add(Rect(x,y,w,h,rx=6,ry=6,fillColor=colors.HexColor('#eff3e9'),strokeColor=colors.HexColor('#c7d2bd')))
-        d.add(String(x+w/2,y+h-20,title,fontName='Helvetica-Bold',fontSize=10,textAnchor='middle',fillColor=colors.HexColor('#264334')))
-        for i,line in enumerate(detail):d.add(String(x+w/2,y+h-36-i*12,line,fontName='Helvetica',fontSize=8,textAnchor='middle',fillColor=colors.HexColor('#6f8064')))
+        d.add(Rect(x,y,w,h,fillColor=colors.white,strokeColor=colors.black))
+        d.add(String(x+w/2,y+h-20,title,fontName='Times-Bold',fontSize=10,textAnchor='middle',fillColor=colors.black))
+        for i,line in enumerate(detail):d.add(String(x+w/2,y+h-36-i*12,line,fontName='Times-Roman',fontSize=8,textAnchor='middle',fillColor=colors.black))
     for x1,y1,x2,y2,label in edges:
-        d.add(Line(x1,y1,x2,y2,strokeColor=colors.HexColor('#647d52'),strokeWidth=1))
-        if x2>x1:d.add(Polygon([x2,y2,x2-6,y2+3,x2-6,y2-3],fillColor=colors.HexColor('#647d52'),strokeColor=None))
-        else:d.add(Polygon([x2,y2,x2-3,y2+6,x2+3,y2+6],fillColor=colors.HexColor('#647d52'),strokeColor=None))
-        if label:d.add(String((x1+x2)/2,(y1+y2)/2+7,label,fontName='Helvetica',fontSize=7,textAnchor='middle',fillColor=colors.HexColor('#6f8064')))
+        d.add(Line(x1,y1,x2,y2,strokeColor=colors.black,strokeWidth=1))
+        if x2>x1:d.add(Polygon([x2,y2,x2-6,y2+3,x2-6,y2-3],fillColor=colors.black,strokeColor=None))
+        else:d.add(Polygon([x2,y2,x2-3,y2+6,x2+3,y2+6],fillColor=colors.black,strokeColor=None))
+        if label:d.add(String((x1+x2)/2,(y1+y2)/2+7,label,fontName='Times-Roman',fontSize=7,textAnchor='middle',fillColor=colors.black))
     return d
 
 shots=ROOT/'screenshots'
@@ -293,6 +295,14 @@ for source,target,box in [
  ('05-bookings.png','05-bookings-crop.png',(130,105,1310,585)),
  ('01-home.png','cover-landscape.png',(0,88,1440,618))]:
     PILImage.open(shots/source).crop(box).save(shots/target)
+
+def report_image(filename,width):
+    output_dir=ROOT/'report-images'
+    output_dir.mkdir(exist_ok=True)
+    source=ImageOps.grayscale(PILImage.open(shots/filename))
+    target=output_dir/filename
+    source.save(target)
+    return Image(str(target),width=width,height=width*source.height/source.width)
 
 story=[];markdown=[]
 toc_entries=[('Cover Page',1),('Acknowledgement',2),('Abstract',2),('Table of Contents',3),('List of Abbreviations',4),('List of Figures',4),('List of Tables',4),('GitHub Repository Link and QR Code',5),('Introduction',5),('Problem Statement',6),('Objectives',6),('Literature Review',7),('Scope and Limitations',8),('Requirement Analysis',8),('Technology Stack',9),('Methodology',10),('Implementation',11),('Project Structure and File Organization',13),('System Screenshots',14),('Challenges Faced',17),('Conclusion',18),('Future Enhancements',18),('References',19),('Appendix',20)]
@@ -315,14 +325,11 @@ for page_no,item in enumerate(pages,1):
         elif kind=='image':
             _,filename,caption,w=block
             iw,ih=PILImage.open(shots/filename).size
-            story.append(KeepTogether([Image(str(shots/filename),width=w,height=w*ih/iw),P(caption,'CaptionX')]))
-            markdown += [f'![{caption}](screenshots/{filename})','']
+            story.append(KeepTogether([report_image(filename,w),P(caption,'CaptionX')]))
+            markdown += [f'![{caption}](report-images/{filename})','']
         elif kind=='code':story.append(Preformatted(block[1],styles['CodeX']));markdown += ['```text',block[1],'```','']
         elif kind=='cover':
-            story += [Spacer(1,35),P('Himalayan Wheels','HeadX'),P('Full Stack Car Rental System','SubX'),P('Project Report','CenterX'),Spacer(1,18)]
-            iw,ih=PILImage.open(shots/'cover-landscape.png').size
-            story.append(Image(str(shots/'cover-landscape.png'),width=CONTENT,height=CONTENT*ih/iw))
-            story += [Spacer(1,30),P('Submitted by','SubX'),P('[Student name]<br/>Roll number [Roll number]<br/>[Program and semester]'),P('Submitted to','SubX'),P('[College or university]<br/>[Department]<br/>Supervisor [Supervisor name]'),Spacer(1,15),P('September 2026','CenterX'),P('React frontend • Express API • SQLite database','CenterX')]
+            story += [Spacer(1,58),P('HIMALAYAN WHEELS','CoverTitle'),P('Full Stack Car Rental System','CoverSub'),Spacer(1,26),P('A Project Report','CenterX'),Spacer(1,62),P('Submitted by','CoverSub'),P('[Student name]<br/>Roll number [Roll number]<br/>[Program and semester]','CenterX'),Spacer(1,38),P('Submitted to','CoverSub'),P('[College or university]<br/>[Department]<br/>Supervisor [Supervisor name]','CenterX'),Spacer(1,58),P('September 2026','CenterX')]
             markdown += ['Himalayan Wheels','Full Stack Car Rental System','Project Report','','Submitted by: [Student name]','Roll number: [Roll number]','Program and semester: [Program and semester]','Submitted to: [College or university]','Department: [Department]','Supervisor: [Supervisor name]','September 2026','']
         elif kind=='toc':
             rows=[[P(title,'BodyX'),P(str(num),'BodyX')] for title,num in toc_entries]
@@ -342,20 +349,18 @@ for page_no,item in enumerate(pages,1):
             story += [d,P('Figure 3  One user owns many bookings and sessions; one car has many bookings','CaptionX')];markdown += ['```mermaid','erDiagram','  users ||--o{ sessions : owns','  users ||--o{ bookings : makes','  cars ||--o{ bookings : receives','```','']
         elif kind=='mobile':
             w=157;iw,ih=PILImage.open(shots/'07-mobile.png').size
-            img=Image(str(shots/'07-mobile.png'),width=w,height=w*ih/iw)
+            img=report_image('07-mobile.png',w)
             text=[P('Figure 9  Mobile homepage','SubX'),P('At a 390-pixel viewport, navigation moves into a menu, the hero illustration is repositioned, and the search form becomes a compact stacked layout. Fleet cards become a single column.'),P('Browser checks found no horizontal page overflow at this width. The same booking and account features remain accessible. This visual check does not replace a complete accessibility audit.'),P('The booking history above shows the saved reference, rental dates, pickup city and total. Cancellation is offered only before the pickup date; cancelled reservations remain in history.')]
             t=Table([[img,text]],colWidths=[w+20,CONTENT-w-20]);t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),10)]));story.append(t)
-            markdown += ['![Figure 9 Mobile homepage](screenshots/07-mobile.png)','',*[plain(x.text) for x in text],'']
+            markdown += ['![Figure 9 Mobile homepage](report-images/07-mobile.png)','',*[plain(x.text) for x in text],'']
 
 def footer(canvas,doc):
+    if doc.page == 1:
+        return
     canvas.saveState()
-    if doc.page>1:
-        canvas.setFont('Helvetica',7.5);canvas.setFillColor(colors.HexColor('#8a9480'))
-        canvas.drawString(52,HEIGHT-29,'HIMALAYAN WHEELS')
-        canvas.drawRightString(WIDTH-52,HEIGHT-29,'PROJECT REPORT')
-    canvas.setFont('Helvetica',8);canvas.setFillColor(colors.HexColor('#7d8973'))
-    canvas.drawString(52,31,'Himalayan Wheels')
-    canvas.drawRightString(WIDTH-52,31,str(doc.page))
+    canvas.setFont('Times-Roman',10)
+    canvas.setFillColor(colors.black)
+    canvas.drawCentredString(WIDTH/2,31,str(doc.page))
     canvas.restoreState()
 
 output=ROOT/'Himalayan-Wheels-Project-Report.pdf'
