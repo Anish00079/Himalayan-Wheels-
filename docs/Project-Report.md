@@ -170,7 +170,7 @@ The review supports a three-part design: a component-based client, an authoritat
 <!-- Page 8 -->
 # Scope and Limitations
 
-The implemented scope covers public discovery and private reservation management. Six seeded records represent six physical demo vehicles. Model specifications and daily rates are illustrative data, not verified manufacturer specifications or market quotations. Vehicle photos from Meromoto are included as local assets, with source details in Image-Credits.md. The website uses a grey, black, and white interface with colour vehicle photos and four-photo galleries. The printed report keeps screenshots in grayscale.
+The implemented scope covers public discovery and private reservation management. Six seeded records represent six physical demo vehicles. Model specifications and daily rates are illustrative data, not verified manufacturer specifications or market quotations. Vehicle photos from Meromoto are included as local assets, with source details in Image-Credits.md. The website uses white surfaces, charcoal text and a restrained rust-orange accent. The rental search leads directly to the fleet, with larger colour car photos and clear daily rates. Pickup locations and rental information follow below. This report retains black-and-white formatting and grayscale screenshots.
 
 The customer selects one of three pickup cities and returns the vehicle to the same city. The application does not model where a vehicle is physically located, repositioning between cities, pickup times, driver services, maintenance blocks, or turnaround buffers. A return date is exclusive, so another rental can start on that date. These assumptions simplify the demonstration and must be revisited before commercial use.
 
@@ -317,7 +317,7 @@ HTTP responses distinguish malformed input (400), missing authentication (401), 
 Himalayan-Wheels/
   src/
     main.jsx                 React components and API client
-    styles.css               Responsive site design
+    styles.css / theme.css   Layout and storefront styling
     preview-api.js           Browser-only Pages adapter
     OwnerDashboard.jsx       Customer order overview
   shared/fleet.js            Shared demonstration fleet
@@ -347,7 +347,7 @@ Himalayan-Wheels/
 
 ## Organization decisions
 
-The client and server are separated by directory and communicate only through the API. The frontend uses components for vehicle galleries, specifications, dialogs, authentication, and booking. Each vehicle has four colour photos and model-specific travel notes. The App component coordinates navigation and shared state. The database module initializes schema and fleet data; app.js defines API rules. OwnerDashboard.jsx renders orders, owners.js provisions owner accounts, and passwords.js shares password hashing.
+The client and server are separated by directory and communicate only through the API. The frontend uses components for vehicle galleries, specifications, dialogs, authentication, and booking. Each vehicle has four colour photos and model-specific travel notes. The App component coordinates navigation and shared state. The theme stylesheet defines the storefront typography, colours and responsive presentation. The database module initializes schema and fleet data; app.js defines API rules. OwnerDashboard.jsx renders orders, owners.js provisions owner accounts, and passwords.js shares password hashing.
 
 Generated dependencies, frontend build output, local logs, and database files are excluded from Git. The source repository retains the dependency lockfile so another developer can reproduce the installation with npm ci. Tests create a disposable database in the operating system temporary directory, avoiding changes to the user's demonstration data.
 
@@ -356,7 +356,7 @@ A GitHub Actions workflow installs dependencies, runs the API tests, and builds 
 <!-- Page 14 -->
 # System Screenshots
 
-The following figures were captured from the running application in a desktop browser. The visible fleet, prices, and accounts are demonstration data. Screenshots illustrate the actual implemented interface rather than a separate design mockup.
+These screenshots show the updated application with its compact search form, larger car photos and clearly displayed daily rates. They were captured from the working application using demonstration vehicles and accounts, then converted to grayscale for this report.
 
 ![Figure 4  Homepage with rental search fields and navigation](report-images/01-home.png)
 
