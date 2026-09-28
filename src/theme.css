@@ -1,0 +1,335 @@
+/* Shared colour palette. Layout and responsive rules live in styles.css. */
+:root {
+  --navy: #16324f;
+  --navy-deep: #10263d;
+  --teal: #087f7a;
+  --teal-dark: #06645f;
+  --ink: #20364a;
+  --muted: #536779;
+  --line: #d4e1e8;
+  --mint: #e8f5f1;
+  --blue: #edf4fa;
+  color: var(--ink);
+  background: #fff;
+}
+
+::selection {
+  background: #bfe8df;
+  color: var(--navy-deep);
+}
+:is(button, input, select, a, summary):focus-visible {
+  outline: 3px solid #247fbc;
+  outline-offset: 3px;
+}
+h1,
+h2,
+h3,
+.car-title h3,
+.vehicle-use strong {
+  color: var(--navy);
+}
+.eyebrow,
+.hero-kicker,
+.benefits svg {
+  color: var(--teal-dark);
+}
+.muted,
+.hero p,
+.card-description,
+.rental-info p {
+  color: var(--muted);
+}
+.service-bar,
+.site-header {
+  background: var(--navy);
+  color: #fff;
+}
+.service-bar {
+  background: var(--navy-deep);
+}
+.site-header {
+  border-color: #294760;
+}
+.logo-icon,
+.site-footer .logo-icon {
+  background: var(--teal);
+  color: #fff;
+}
+.logo > span:last-child > span {
+  color: #bcd5e5;
+}
+.nav-wrap nav button {
+  color: #d3e3ed;
+}
+.nav-wrap nav button:is(.selected, :hover) {
+  color: #fff;
+}
+.nav-wrap nav button.selected::after {
+  background: #63d4be;
+}
+.site-header .sign-in {
+  color: #fff;
+  border-color: #7492aa;
+}
+.site-header .sign-in:hover,
+.site-header .icon-button:hover {
+  background: #294760;
+}
+
+.hero {
+  background: var(--blue);
+  border-color: var(--line);
+}
+.hero-copy {
+  color: var(--navy);
+}
+.hero-kicker {
+  font-weight: 600;
+}
+.hero-car,
+.car-art {
+  mix-blend-mode: normal;
+  filter: none;
+}
+.primary,
+.cream-button,
+.book-button {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+}
+.primary:hover,
+.cream-button:hover,
+.book-button:hover {
+  background: var(--teal-dark);
+  color: #fff;
+  border-color: var(--teal-dark);
+}
+.secondary {
+  color: var(--navy);
+  border-color: #8da9bb;
+}
+.secondary:hover {
+  background: var(--blue);
+}
+.icon-button:hover {
+  background: var(--blue);
+}
+.rental-search-panel {
+  border-color: var(--line);
+  box-shadow: 0 8px 24px #16324f0d;
+}
+.rental-search-panel .trip-search :is(input, select),
+.order-filters :is(input, select) {
+  border-color: #aec3d0;
+  color: var(--ink);
+}
+.trip-search label > span,
+.benefits strong {
+  color: var(--ink);
+}
+.trip-search label svg {
+  color: var(--teal);
+}
+
+.destination-card {
+  background: var(--blue);
+  color: var(--navy);
+  border-color: var(--line);
+}
+.destination-card:nth-child(2) {
+  background: var(--mint);
+}
+.destination-card:nth-child(3) {
+  background: #fbf3e6;
+}
+.destination-card > span {
+  color: var(--muted);
+}
+.destination-card small,
+.destination-card > svg {
+  color: var(--teal-dark);
+}
+.destination-card:is(.chosen, :hover) {
+  border-color: var(--teal);
+}
+.category-card,
+.car-card {
+  border-color: var(--line);
+  color: var(--navy);
+}
+.category-card:hover,
+.car-card:hover {
+  border-color: #699dba;
+}
+.category-card .car-art,
+.car-visual,
+.visual-1,
+.visual-2 {
+  background: #f2f6f8;
+}
+.tabs button {
+  color: var(--navy);
+  border-color: var(--line);
+}
+.tabs button:hover {
+  background: var(--blue);
+}
+.tabs button.active,
+.login-roles button.active {
+  background: var(--navy);
+  color: #fff;
+}
+.car-title > span {
+  background: var(--blue);
+  color: var(--navy);
+}
+.car-bottom {
+  border-color: var(--line);
+}
+.car-bottom strong,
+.price-summary .total {
+  color: var(--navy);
+}
+.availability.yes,
+.booking-status {
+  background: #def2e8;
+  color: #21613e;
+}
+.availability.no,
+.booking-status.cancelled {
+  background: #f9e9e7;
+  color: #983d36;
+}
+.photo-count {
+  border-color: var(--line);
+  color: var(--navy);
+}
+.how-section {
+  background: var(--mint);
+  border-color: #d0e5dc;
+}
+.step > div > span {
+  background: #fff;
+  color: var(--teal-dark);
+  border-color: #aed5c8;
+}
+.step h3 {
+  color: var(--navy);
+}
+.step-number {
+  color: var(--teal-dark);
+}
+.rental-faq details {
+  border-color: var(--line);
+}
+.rental-faq summary::marker {
+  color: var(--teal);
+}
+
+.site-footer {
+  background: var(--navy);
+  color: #fff;
+}
+.footer-top :is(p, button, a),
+.footer-top .demo-note,
+.footer-bottom,
+.footer-bottom a {
+  color: #cadce8;
+}
+.footer-top .eyebrow {
+  color: #76dfc9;
+}
+.site-footer .logo > span:last-child > span {
+  color: #bcd5e5;
+}
+.footer-bottom {
+  border-color: #3a556c;
+}
+.preview-banner {
+  background: #fff5df;
+  color: #71521b;
+  border-color: #eedcb3;
+}
+
+dialog {
+  color: var(--ink);
+  box-shadow: 0 12px 50px #10263d33;
+}
+dialog::backdrop {
+  background: #10263d80;
+}
+.booking-car,
+.booking-thumbnail {
+  background: var(--blue);
+}
+.gallery-main,
+.gallery-thumbnails img {
+  background: #f2f6f8;
+}
+.gallery-main,
+.gallery-thumbnails button {
+  border-color: var(--line);
+}
+.gallery-thumbnails button[aria-pressed="true"] {
+  border-color: var(--teal);
+}
+.vehicle-specifications > div,
+.vehicle-more,
+.price-summary {
+  border-color: var(--line);
+}
+.login-roles {
+  border-color: var(--line);
+}
+.auth-notice,
+.owner-demo-note {
+  background: var(--blue);
+  color: var(--navy);
+  border-color: #c4d9e8;
+}
+.order-summary,
+.order-summary > div,
+.order-table-wrap,
+.order-table td {
+  border-color: var(--line);
+}
+.order-summary {
+  background: var(--blue);
+}
+.order-summary dd {
+  color: var(--navy);
+}
+.order-table th {
+  background: var(--blue);
+  color: var(--navy);
+}
+.order-table caption {
+  background: #f6f9fc;
+  color: var(--muted);
+}
+.error {
+  background: #fff0ee;
+  color: #963c32;
+  border-color: #efc7c0;
+}
+.danger {
+  background: #a43b35;
+  color: #fff;
+}
+.danger:hover {
+  background: #852e29;
+}
+.cancel-button {
+  color: #963c32;
+}
+.toast {
+  background: var(--navy);
+  color: #fff;
+}
+
+@media (max-width: 650px) {
+  .nav-wrap nav {
+    background: var(--navy);
+  }
+}

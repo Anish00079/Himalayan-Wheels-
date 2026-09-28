@@ -25,6 +25,7 @@ import {
   Clock3,
 } from "lucide-react";
 import "./styles.css";
+import "./theme.css";
 import OwnerDashboard from "./OwnerDashboard.jsx";
 import CarDetails from "./CarDetails.jsx";
 import { previewApi } from "./preview-api.js";

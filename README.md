@@ -51,7 +51,7 @@ Customers use **Sign in → User → Create an account** and book through the fl
 - Date-based availability and rental periods of 1–30 days.
 - Customer registration, user/owner login, seven-day sessions, and logout.
 - Owner dashboard with all customer orders, status filters, search, and booking totals.
-- Destination selection and vehicle-type search, with a monochrome rental layout inspired by the supplied [Sajilo Rental reference](https://sajilorental.com/).
+- Destination selection and vehicle-type search, with a navy-and-teal rental layout inspired by the supplied [Sajilo Rental reference](https://sajilorental.com/).
 - Server-calculated totals and transaction-protected overlap checks.
 - Private booking history and cancellation before the pickup date.
 - Responsive layouts, labelled forms, and keyboard-accessible dialogs.
@@ -149,4 +149,4 @@ See `docs/Himalayan-Wheels-Project-Report.pdf`. Its editable Markdown source is 
 - [Vite documentation](https://vite.dev/guide/)
 - [SQLite transactions](https://www.sqlite.org/lang_transaction.html)
 
-Vehicle photos are sourced from [Meromoto](https://meromoto.com/) at the project owner's request. See `docs/Image-Credits.md` for individual source links. The photos are bundled locally under `public/cars/`; no external image or font service is required at runtime. The interface uses a neutral grey, black, and white palette with full-colour vehicle photos. Six four-photo galleries use images from matching Meromoto listings; rental specifications remain sample configurations.
+Vehicle photos are sourced from [Meromoto](https://meromoto.com/) at the project owner's request. See `docs/Image-Credits.md` for individual source links. The photos are bundled locally under `public/cars/`; no external image or font service is required at runtime. The interface uses navy blue and teal, with pale blue and green sections and full-colour vehicle photos. The academic report stays black and white. Six four-photo galleries use images from matching Meromoto listings; rental specifications remain sample configurations.
