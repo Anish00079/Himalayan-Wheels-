@@ -8,7 +8,15 @@ const user = {
   id: "preview-traveller",
   name: "Demo traveller",
   email: "demo@example.com",
+  role: "customer",
 };
+const owner = {
+  id: "preview-owner",
+  name: "Demo owner",
+  email: "owner@example.com",
+  role: "owner",
+};
+const identity = (state) => (state.role === "owner" ? owner : user);
 const fields = [
   "id",
   "name",
@@ -86,13 +94,14 @@ export async function previewApi(path, method = "GET", body) {
   }
   if (path === "/auth/login" && method === "POST") {
     state.signedIn = true;
+    state.role = body?.role === "owner" ? "owner" : "customer";
     save(state);
-    return { user };
+    return { user: identity(state) };
   }
   if (path === "/auth/me") {
     if (!state.signedIn)
       throw new Error("Open the demo workspace to continue.");
-    return { user };
+    return { user: identity(state) };
   }
   if (path === "/auth/logout") {
     state.signedIn = false;
@@ -100,13 +109,30 @@ export async function previewApi(path, method = "GET", body) {
     return { ok: true };
   }
   if (!state.signedIn) throw new Error("Open the demo workspace to continue.");
+  if (path === "/owner/bookings" && method === "GET") {
+    if (identity(state).role !== "owner")
+      throw new Error("Owner access is required.");
+    return {
+      bookings: state.bookings
+        .map((booking) => ({
+          ...cars.find((car) => car.id === booking.car_id),
+          ...booking,
+          customer_name: user.name,
+          customer_email: user.email,
+        }))
+        .sort((a, b) => b.created_at.localeCompare(a.created_at)),
+    };
+  }
   if (path === "/bookings" && method === "GET")
     return {
       bookings: state.bookings
+        .filter((booking) => booking.user_id === identity(state).id)
         .map((b) => ({ ...cars.find((c) => c.id === b.car_id), ...b }))
         .sort((a, b) => b.created_at.localeCompare(a.created_at)),
     };
   if (path === "/bookings" && method === "POST") {
+    if (identity(state).role !== "customer")
+      throw new Error("Use a customer account to book a vehicle.");
     const days = validate(body.start_date, body.end_date),
       car = cars.find((c) => c.id === body.car_id);
     if (!car || !locations.includes(body.pickup))
@@ -133,7 +159,9 @@ export async function previewApi(path, method = "GET", body) {
     return { booking };
   }
   if (/^\/bookings\/[^/]+\/cancel$/.test(path) && method === "PATCH") {
-    const booking = state.bookings.find((b) => b.id === path.split("/")[2]);
+    const booking = state.bookings.find(
+      (b) => b.id === path.split("/")[2] && b.user_id === identity(state).id,
+    );
     if (!booking) throw new Error("Booking not found.");
     if (booking.start_date <= today() && booking.status !== "Cancelled")
       throw new Error("Online cancellation closes on the pickup date.");

@@ -10,7 +10,8 @@
     "dev": "concurrently -k \"node --watch server/index.js\" \"vite --host 127.0.0.1\"",
     "build": "vite build",
     "start": "node server/index.js",
-    "test": "node --test tests/api.test.js"
+    "test": "node --test tests/*.test.js",
+    "owner:create": "node server/create-owner.js"
   },
   "dependencies": {
     "express": "^5.1.0",

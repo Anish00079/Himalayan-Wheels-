@@ -6,7 +6,7 @@ Repository: https://github.com/Anish00079/Himalayan-Wheels-
 
 Website preview: https://anish00079.github.io/Himalayan-Wheels-/
 
-The GitHub Pages preview uses an explicitly labelled browser-only demo workspace. It does not collect passwords, issue real rentals, or share bookings between visitors. **Continue as demo traveller** to try reservations. The normal local/server build uses the real Express API, authenticated accounts, and SQLite instead. Preview mode is enabled only at build time with `VITE_PREVIEW=true`.
+The GitHub Pages preview uses an explicitly labelled browser-only demo workspace. It does not collect passwords, issue real rentals, or share bookings between visitors. **Sign in → User → Continue as demo traveller** to try reservations. Sign out, then use **Owner login → Continue as demo owner** to see those orders in the same browser. The owner demo is a role preview, not secure staff authentication. The normal local/server build uses the real Express API, authenticated accounts, and SQLite instead. Preview mode is enabled only at build time with `VITE_PREVIEW=true`.
 
 ## Quick start
 
@@ -18,9 +18,23 @@ npm run build
 npm start
 ```
 
-Open **http://localhost:3001**. Browse without an account. Click **Sign in → Create an account** when ready to book. There is no shared default password or administrator account.
+Open **http://localhost:3001**. Browse without an account. Click **Sign in → Create an account** when ready to book. Owner accounts are created with the setup command below. There is no shared default password.
 
 For development, use `npm run dev` and open http://localhost:5173. Stop any existing server on port 3001 first. The frontend forwards `/api` requests to the backend.
+
+## Owner setup and login
+
+Run this command in the project folder, using the same `DB_PATH` as the server if you customized it:
+
+```sh
+npm run owner:create
+```
+
+Enter the owner name, email, and a password of 12–128 characters. Password input is hidden and must be confirmed. Use a separate email from an existing customer account. The command never promotes or overwrites an existing account.
+
+Open the locally running website and choose **Owner login**, then enter the owner credentials. The dashboard displays all customer orders with customer names, emails, car, dates, location, total, and status. Search, filter by status, and use **Refresh orders** after a customer books or cancels. Confirmed booking value is not a record of received payments.
+
+Customers use **Sign in → User → Create an account** and book through the fleet. Only customers create reservations; owners review orders. Public registration always creates a customer, regardless of any submitted role. Owner authorization is enforced by the backend. Older databases automatically gain customer roles while retaining existing accounts and bookings.
 
 ## Features
 
@@ -28,7 +42,9 @@ For development, use `npm run dev` and open http://localhost:5173. Stop any exis
 - Search by model, category filters, and price sorting.
 - Kathmandu, Pokhara, and Chitwan pickup and return options.
 - Date-based availability and rental periods of 1–30 days.
-- Registration, login, seven-day sessions, and logout.
+- Customer registration, user/owner login, seven-day sessions, and logout.
+- Owner dashboard with all customer orders, status filters, search, and booking totals.
+- Destination selection and vehicle-type search, with a monochrome rental layout inspired by the supplied [Sajilo Rental reference](https://sajilorental.com/).
 - Server-calculated totals and transaction-protected overlap checks.
 - Private booking history and cancellation before the pickup date.
 - Responsive layouts, labelled forms, and keyboard-accessible dialogs.
@@ -47,6 +63,7 @@ The server rechecks availability when confirming. Submitted client totals are ig
 | `npm run dev` | Run Vite and the API together |
 | `npm run build` | Build the React frontend into `dist/` |
 | `npm start` | Serve frontend and API from port 3001 |
+| `npm run owner:create` | Create a local owner account interactively |
 | `npm test` | Test API behavior using a disposable database |
 
 ## Configuration
@@ -66,14 +83,19 @@ These are process environment variables. `.env` files are not automatically load
 ```text
 src/
   main.jsx              Screens, reusable components, vehicle photos, API client
+  OwnerDashboard.jsx    Owner order summary, search, filters and table
   preview-api.js        Browser-only adapter for the labelled Pages preview
   styles.css            Desktop and mobile layouts
 shared/fleet.js          Sample fleet shared by the server seed and preview
 server/
   app.js                Public fleet, authentication, and protected booking API
   db.js                 Schema, indexes, and demo fleet seed
+  owners.js             Local owner account provisioning
+  create-owner.js       Interactive setup command
+  passwords.js          Shared password hashing and verification
   index.js              Server startup and shutdown
 tests/api.test.js       Rental and authentication integration tests
+tests/owner.test.js     Role permissions, migration and order access tests
 docs/                   Academic report, editable source, and screenshots
 .github/workflows/ci.yml Automated test and build checks
 Dockerfile              Container deployment definition
@@ -91,8 +113,9 @@ vite.config.js          Frontend build and development proxy
 | GET | `/api/auth/me` | Signed in | Current user |
 | POST | `/api/auth/logout` | Signed in | End session |
 | GET | `/api/bookings` | Signed in | Own booking history |
-| POST | `/api/bookings` | Signed in | Reserve vehicle |
-| PATCH | `/api/bookings/:id/cancel` | Owner | Cancel future reservation |
+| GET | `/api/owner/bookings` | Rental owner | All customer booking orders |
+| POST | `/api/bookings` | Customer | Reserve vehicle |
+| PATCH | `/api/bookings/:id/cancel` | Booking customer | Cancel future reservation |
 
 Write requests require `Content-Type: application/json` and `X-Himalayan-Wheels: 1`. The browser sends the HttpOnly session cookie automatically. Cross-origin API access is not enabled.
 

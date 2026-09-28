@@ -25,6 +25,7 @@ import {
   Clock3,
 } from "lucide-react";
 import "./styles.css";
+import OwnerDashboard from "./OwnerDashboard.jsx";
 import { previewApi } from "./preview-api.js";
 const isPreview = import.meta.env.VITE_PREVIEW === "true";
 
@@ -109,13 +110,40 @@ function Modal({ title, onClose, children, wide = false }) {
     </dialog>
   );
 }
-function Auth({ onClose, onLogin }) {
+function Auth({ onClose, onLogin, initialRole = "customer" }) {
+  const [role, setRole] = useState(initialRole);
+  const roleOptions = (
+    <div className="login-roles" role="group" aria-label="Account type">
+      {[
+        ["customer", "User"],
+        ["owner", "Owner"],
+      ].map(([value, label]) => (
+        <button
+          type="button"
+          key={value}
+          aria-pressed={role === value}
+          className={role === value ? "active" : ""}
+          onClick={() => {
+            setRole(value);
+            setRegister(false);
+            setError("");
+          }}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
   const [register, setRegister] = useState(false),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
   if (isPreview)
     return (
-      <Modal title="Try the demo workspace" onClose={onClose}>
+      <Modal
+        title={role === "owner" ? "Owner demo" : "User demo"}
+        onClose={onClose}
+      >
+        {roleOptions}
         <p className="muted">
           Explore booking and cancellation without creating an account. Preview
           reservations stay in this browser and are not shared with other
@@ -131,27 +159,38 @@ function Auth({ onClose, onLogin }) {
           className="primary full"
           onClick={async () => {
             try {
-              const data = await api("/auth/login", "POST");
+              const data = await api("/auth/login", "POST", { role });
               onLogin(data.user);
             } catch (e) {
               setError(e.message);
             }
           }}
         >
-          Continue as demo traveller
+          {role === "owner"
+            ? "Continue as demo owner"
+            : "Continue as demo traveller"}
           <ArrowRight size={17} />
         </button>
       </Modal>
     );
   return (
     <Modal
-      title={register ? "Create an account" : "Welcome back"}
+      title={
+        register
+          ? "Create an account"
+          : role === "owner"
+            ? "Owner sign in"
+            : "User sign in"
+      }
       onClose={onClose}
     >
+      {roleOptions}
       <p className="muted">
-        {register
-          ? "Create an account to book your next ride."
-          : "Sign in to reserve a car and manage your bookings."}
+        {role === "owner"
+          ? "Sign in with your owner account to view customer booking orders."
+          : register
+            ? "Create an account to book your next ride."
+            : "Sign in to reserve a car and manage your bookings."}
       </p>
       <form
         onSubmit={async (e) => {
@@ -162,7 +201,7 @@ function Auth({ onClose, onLogin }) {
             const data = await api(
               "/auth/" + (register ? "register" : "login"),
               "POST",
-              Object.fromEntries(new FormData(e.currentTarget)),
+              { ...Object.fromEntries(new FormData(e.currentTarget)), role },
             );
             onLogin(data.user);
           } catch (e) {
@@ -217,17 +256,24 @@ function Auth({ onClose, onLogin }) {
           <ArrowRight size={17} />
         </button>
       </form>
-      <p className="auth-switch">
-        {register ? "Already have an account?" : "New around here?"}{" "}
-        <button
-          onClick={() => {
-            setRegister(!register);
-            setError("");
-          }}
-        >
-          {register ? "Sign in" : "Create an account"}
-        </button>
-      </p>
+      {role === "customer" ? (
+        <p className="auth-switch">
+          {register ? "Already have an account?" : "New around here?"}{" "}
+          <button
+            onClick={() => {
+              setRegister(!register);
+              setError("");
+            }}
+          >
+            {register ? "Sign in" : "Create an account"}
+          </button>
+        </p>
+      ) : (
+        <p className="muted owner-setup-note">
+          Owner accounts are created by the person running the server. Contact
+          them if you need access.
+        </p>
+      )}
     </Modal>
   );
 }
@@ -374,6 +420,7 @@ function App() {
     [category, setCategory] = useState("All cars"),
     [search, setSearch] = useState(""),
     [sort, setSort] = useState("featured"),
+    [tripCategory, setTripCategory] = useState("All cars"),
     [mobile, setMobile] = useState(false),
     [datesApplied, setDatesApplied] = useState(false),
     [trip, setTrip] = useState({
@@ -399,11 +446,15 @@ function App() {
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
     api("/auth/me")
-      .then((d) => setUser(d.user))
+      .then((d) => {
+        setUser(d.user);
+        if (d.user.role === "owner") setPage("owner");
+      })
       .catch(() => {});
   }, []);
   useEffect(() => {
-    if (user) loadBookings().catch((e) => setError(e.message));
+    if (user?.role === "customer")
+      loadBookings().catch((e) => setError(e.message));
   }, [user]);
   useEffect(() => {
     if (toast) {
@@ -418,8 +469,9 @@ function App() {
         setAuth(true);
         return;
       }
-      setPage("bookings");
-      loadBookings().catch((e) => setError(e.message));
+      setPage(user.role === "owner" ? "owner" : "bookings");
+      if (user.role !== "owner")
+        loadBookings().catch((e) => setError(e.message));
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       setPage("home");
@@ -451,6 +503,8 @@ function App() {
     setError("");
     try {
       await loadCars(trip);
+      setCategory(tripCategory);
+      setSearch("");
       setDatesApplied(true);
       nav("fleet");
     } catch (e) {
@@ -458,6 +512,12 @@ function App() {
     } finally {
       setBusy(false);
     }
+  }
+  function ownerAccess() {
+    if (user?.role === "owner") nav("bookings");
+    else if (user)
+      setToast("Sign out, then choose Owner to access booking orders.");
+    else setAuth("owner");
   }
   function changeTrip(key, value) {
     setTrip((t) => ({ ...t, [key]: value }));
@@ -477,6 +537,17 @@ function App() {
           </a>
         </div>
       )}
+      <div className="service-bar">
+        <div className="content-width">
+          <span>
+            <MapPin size={13} /> Kathmandu / Pokhara / Chitwan
+          </span>
+          <button onClick={ownerAccess}>
+            {user?.role === "owner" ? "Owner dashboard" : "Owner login"}
+            <ArrowUpRight size={13} />
+          </button>
+        </div>
+      </div>
       <header className="site-header">
         <div className="nav-wrap">
           <button
@@ -494,12 +565,15 @@ function App() {
               Home
             </button>
             <button onClick={() => nav("fleet")}>Our fleet</button>
+            <button onClick={() => nav("destinations")}>Destinations</button>
             <button onClick={() => nav("how")}>How it works</button>
             <button
-              className={page === "bookings" ? "selected" : ""}
+              className={
+                page === "bookings" || page === "owner" ? "selected" : ""
+              }
               onClick={() => nav("bookings")}
             >
-              My bookings
+              {user?.role === "owner" ? "Owner orders" : "My bookings"}
             </button>
           </nav>
           <div className="account-actions">
@@ -574,7 +648,14 @@ function App() {
               </div>
             </div>
           </section>
-          <div className="search-wrap">
+          <div className="search-wrap rental-search-panel">
+            <div className="rental-search-heading">
+              <div>
+                <span className="eyebrow">Plan your rental</span>
+                <h2>Find a car for your trip</h2>
+              </div>
+              <span>Daily rates in NPR</span>
+            </div>
             <form className="trip-search" onSubmit={checkAvailability}>
               <label>
                 <span>
@@ -589,6 +670,22 @@ function App() {
                   {["Kathmandu", "Pokhara", "Chitwan"].map((l) => (
                     <option key={l}>{l}</option>
                   ))}
+                </select>
+              </label>
+              <label>
+                <span>
+                  <CarFront size={16} /> VEHICLE TYPE
+                </span>
+                <select
+                  aria-label="Search vehicle type"
+                  value={tripCategory}
+                  onChange={(event) => setTripCategory(event.target.value)}
+                >
+                  {["All cars", "SUV", "Sedan", "Hatchback", "Electric"].map(
+                    (type) => (
+                      <option key={type}>{type}</option>
+                    ),
+                  )}
                 </select>
               </label>
               <label>
@@ -646,6 +743,83 @@ function App() {
                 <strong>Cancellation policy</strong>
                 <small>Cancel before your pickup day</small>
               </span>
+            </div>
+          </section>
+          <section
+            className="destinations-section content-width"
+            id="destinations"
+          >
+            <div className="section-heading">
+              <div>
+                <span className="eyebrow">Pickup locations</span>
+                <h2>Where does your trip begin?</h2>
+                <p className="muted">
+                  Choose a city to set your pickup and return location.
+                </p>
+              </div>
+            </div>
+            <div className="destination-grid">
+              {[
+                ["Kathmandu", "Start your rental in the capital."],
+                ["Pokhara", "Plan a visit to the lakeside city."],
+                ["Chitwan", "Arrange your journey in the Terai."],
+              ].map(([city, description]) => (
+                <button
+                  key={city}
+                  className={
+                    "destination-card " + (trip.pickup === city ? "chosen" : "")
+                  }
+                  aria-label={"Choose " + city + " pickup"}
+                  aria-pressed={trip.pickup === city}
+                  onClick={() => {
+                    changeTrip("pickup", city);
+                    nav("fleet");
+                    setToast("Pickup and return location set to " + city + ".");
+                  }}
+                >
+                  <MapPin size={24} />
+                  <strong>{city}</strong>
+                  <span>{description}</span>
+                  <small>
+                    {trip.pickup === city ? "Selected pickup" : "Choose pickup"}
+                    <ArrowUpRight size={15} />
+                  </small>
+                </button>
+              ))}
+            </div>
+          </section>
+          <section className="categories-section content-width" id="categories">
+            <div className="section-heading">
+              <div>
+                <span className="eyebrow">Browse by vehicle type</span>
+                <h2>A car for your plans</h2>
+              </div>
+            </div>
+            <div className="category-grid">
+              {[
+                ["SUV", "creta", "Hyundai Creta"],
+                ["Sedan", "city", "Honda City"],
+                ["Hatchback", "swift", "Suzuki Swift"],
+                ["Electric", "nexon", "Tata Nexon EV"],
+              ].map(([type, id, name]) => (
+                <button
+                  className="category-card"
+                  key={type}
+                  aria-label={"Browse " + type + " cars"}
+                  onClick={() => {
+                    setCategory(type);
+                    setTripCategory(type);
+                    setSearch("");
+                    nav("fleet");
+                  }}
+                >
+                  <CarPhoto carId={id} name={name} />
+                  <span>
+                    <strong>{type}</strong>
+                    <ArrowUpRight size={18} />
+                  </span>
+                </button>
+              ))}
             </div>
           </section>
           <section className="fleet content-width" id="fleet">
@@ -760,9 +934,15 @@ function App() {
                         <button
                           className="book-button"
                           disabled={car.available === false}
-                          onClick={() => setBookingCar(car)}
+                          onClick={() =>
+                            user?.role === "owner"
+                              ? nav("bookings")
+                              : setBookingCar(car)
+                          }
                         >
-                          View & book
+                          {user?.role === "owner"
+                            ? "View orders"
+                            : "View & book"}
                           <ArrowUpRight size={16} />
                         </button>
                       </div>
@@ -837,7 +1017,55 @@ function App() {
               </div>
             </div>
           </section>
+          <section className="rental-info content-width" id="about">
+            <div>
+              <span className="eyebrow">About Himalayan Wheels</span>
+              <h2>One place to find and reserve a car</h2>
+              <p>
+                Compare daily prices, choose your rental dates, and keep track
+                of your booking. Himalayan Wheels brings vehicle selection and
+                reservations together for trips starting in Kathmandu, Pokhara
+                or Chitwan.
+              </p>
+              <p>
+                Owners have a separate dashboard to review customer booking
+                orders.
+              </p>
+              <button className="secondary" onClick={ownerAccess}>
+                Open owner login
+                <ArrowUpRight size={16} />
+              </button>
+            </div>
+            <div className="rental-faq">
+              <h2>Before you book</h2>
+              {[
+                [
+                  "How is the rental price calculated?",
+                  "Your total is the daily rate multiplied by the number of rental days. The return date is not charged as an extra day. Rentals can be from 1 to 30 days.",
+                ],
+                [
+                  "Can I cancel my booking?",
+                  "Yes. Sign in, open My bookings and cancel before the pickup date. Cancelled bookings remain in your history.",
+                ],
+                [
+                  "Where do I return the car?",
+                  "Choose Kathmandu, Pokhara or Chitwan for pickup. This project uses the same city for pickup and return.",
+                ],
+                [
+                  "Do I pay online?",
+                  "No online payment is collected. This is an academic rental demonstration; bookings do not issue a real rental.",
+                ],
+              ].map(([question, answer]) => (
+                <details key={question}>
+                  <summary>{question}</summary>
+                  <p>{answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
         </>
+      ) : page === "owner" && user?.role === "owner" ? (
+        <OwnerDashboard key={user.id} api={api} isPreview={isPreview} />
       ) : (
         <main className="bookings-page content-width">
           <span className="eyebrow">Your account</span>
@@ -927,7 +1155,9 @@ function App() {
               <span className="eyebrow">EXPLORE</span>
               <button onClick={() => nav("fleet")}>Our fleet</button>
               <button onClick={() => nav("how")}>How it works</button>
-              <button onClick={() => nav("bookings")}>My bookings</button>
+              <button onClick={() => nav("bookings")}>
+                {user?.role === "owner" ? "Owner orders" : "My bookings"}
+              </button>
             </div>
             <div>
               <span className="eyebrow">PICKUP CITIES</span>
@@ -989,10 +1219,16 @@ function App() {
       )}
       {auth && (
         <Auth
+          initialRole={auth === "owner" ? "owner" : "customer"}
           onClose={() => setAuth(false)}
           onLogin={(u) => {
             setUser(u);
             setAuth(false);
+            setBookings([]);
+            if (u.role === "owner") {
+              setBookingCar(null);
+              setPage("owner");
+            } else if (!bookingCar) setPage("bookings");
             setToast("Welcome, " + u.name.split(" ")[0] + ".");
           }}
         />

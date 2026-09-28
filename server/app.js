@@ -1,16 +1,11 @@
 import express from "express";
 import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
-import {
-  randomUUID,
-  randomBytes,
-  scryptSync,
-  timingSafeEqual,
-  createHash,
-} from "node:crypto";
+import { randomUUID, randomBytes, createHash } from "node:crypto";
 import { resolve } from "node:path";
 import { existsSync } from "node:fs";
 import { openDatabase } from "./db.js";
+import { hashPassword, matches } from "./passwords.js";
 const digest = (s) => createHash("sha256").update(s).digest("hex");
 const clean = (v, max) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const locations = ["Kathmandu", "Pokhara", "Chitwan"];
@@ -21,31 +16,6 @@ export const nepalToday = () =>
     month: "2-digit",
     day: "2-digit",
   }).format(new Date());
-function hashPassword(password) {
-  const salt = randomBytes(16).toString("hex");
-  return (
-    salt +
-    ":" +
-    scryptSync(password, salt, 64, {
-      N: 131072,
-      r: 8,
-      p: 1,
-      maxmem: 256 * 1024 * 1024,
-    }).toString("hex")
-  );
-}
-function matches(password, stored) {
-  const [salt, hash] = stored.split(":");
-  return timingSafeEqual(
-    scryptSync(password, salt, 64, {
-      N: 131072,
-      r: 8,
-      p: 1,
-      maxmem: 256 * 1024 * 1024,
-    }),
-    Buffer.from(hash, "hex"),
-  );
-}
 const validDate = (d) =>
   typeof d === "string" &&
   /^\d{4}-\d{2}-\d{2}$/.test(d) &&
@@ -112,7 +82,7 @@ export function createApp({
       path: "/",
       maxAge: 7 * 86400000,
     });
-    return { id: user.id, name: user.name, email: user.email };
+    return { id: user.id, name: user.name, email: user.email, role: user.role };
   }
   app.get("/api/health", (req, res) => res.json({ status: "ok" }));
   app.get("/api/cars", (req, res) => {
@@ -152,13 +122,10 @@ export function createApp({
       return res
         .status(409)
         .json({ error: "An account with this email already exists." });
-    const user = { id: randomUUID(), name, email };
-    db.prepare("INSERT INTO users VALUES(?,?,?,?)").run(
-      user.id,
-      name,
-      email,
-      hashPassword(password),
-    );
+    const user = { id: randomUUID(), name, email, role: "customer" };
+    db.prepare(
+      "INSERT INTO users (id,name,email,password) VALUES(?,?,?,?)",
+    ).run(user.id, name, email, hashPassword(password));
     res.status(201).json({ user: session(res, user) });
   });
   app.post("/api/auth/login", limiter, (req, res) => {
@@ -173,6 +140,13 @@ export function createApp({
       !matches(password, user.password)
     )
       return res.status(401).json({ error: "Email or password is incorrect." });
+    if (req.body.role === "owner" && user.role !== "owner")
+      return res
+        .status(403)
+        .json({
+          error:
+            "This account does not have owner access. Choose User to sign in.",
+        });
     res.json({ user: session(res, user) });
   });
   app.use("/api", (req, res, next) => {
@@ -185,7 +159,7 @@ export function createApp({
     req.token = digest(token);
     req.user = db
       .prepare(
-        "SELECT users.id,users.name,users.email FROM sessions JOIN users ON users.id=sessions.user_id WHERE sessions.token=? AND sessions.expires>?",
+        "SELECT users.id,users.name,users.email,users.role FROM sessions JOIN users ON users.id=sessions.user_id WHERE sessions.token=? AND sessions.expires>?",
       )
       .get(req.token, Date.now());
     if (!req.user)
@@ -203,6 +177,22 @@ export function createApp({
     });
     res.json({ ok: true });
   });
+  app.use("/api/owner", (req, res, next) => {
+    if (req.user.role !== "owner")
+      return res.status(403).json({ error: "Owner access is required." });
+    next();
+  });
+  app.get("/api/owner/bookings", (req, res) => {
+    const bookings = db
+      .prepare(
+        `SELECT bookings.*, cars.name, users.name AS customer_name, users.email AS customer_email
+       FROM bookings JOIN cars ON cars.id=bookings.car_id
+       JOIN users ON users.id=bookings.user_id
+       ORDER BY bookings.created_at DESC, bookings.id DESC`,
+      )
+      .all();
+    res.json({ bookings });
+  });
   app.get("/api/bookings", (req, res) => {
     const bookings = db
       .prepare(
@@ -212,6 +202,10 @@ export function createApp({
     res.json({ bookings });
   });
   app.post("/api/bookings", (req, res) => {
+    if (req.user.role !== "customer")
+      return res
+        .status(403)
+        .json({ error: "Use a customer account to book a vehicle." });
     const { car_id, pickup, start_date, end_date } = req.body,
       error = dateError(start_date, end_date);
     if (error) return res.status(400).json({ error });

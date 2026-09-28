@@ -13,6 +13,17 @@ export function openDatabase(filename) {
     CREATE TABLE IF NOT EXISTS bookings(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),car_id TEXT NOT NULL REFERENCES cars(id),pickup TEXT NOT NULL,start_date TEXT NOT NULL,end_date TEXT NOT NULL,days INTEGER NOT NULL,daily_rate INTEGER NOT NULL,total INTEGER NOT NULL,status TEXT NOT NULL CHECK(status IN ('Confirmed','Cancelled')),created_at TEXT NOT NULL);
     CREATE INDEX IF NOT EXISTS booking_owner ON bookings(user_id);
     CREATE INDEX IF NOT EXISTS booking_availability ON bookings(car_id,status,start_date,end_date);`);
+  // Preserve existing customer accounts when upgrading an earlier database.
+  if (
+    !db
+      .prepare("PRAGMA table_info(users)")
+      .all()
+      .some((column) => column.name === "role")
+  ) {
+    db.exec(
+      "ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'customer' CHECK(role IN ('customer','owner'))",
+    );
+  }
   const insert = db.prepare(
     "INSERT OR IGNORE INTO cars VALUES(?,?,?,?,?,?,?,?,?)",
   );

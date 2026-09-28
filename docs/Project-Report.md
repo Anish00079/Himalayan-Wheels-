@@ -22,7 +22,7 @@ This project brings together interface design, server development, database mode
 
 ## Abstract
 
-Himalayan Wheels is a full-stack car rental demonstration designed for browsing vehicles and managing reservations in a Nepal-focused setting. The system presents a six-vehicle sample fleet, sample daily rates in Nepalese rupees, and pickup choices in Kathmandu, Pokhara, and Chitwan. Visitors can explore vehicle categories, search models, sort prices, and check availability for selected dates. Registered users can reserve a vehicle, review their own booking history, and cancel a reservation before its pickup date.
+Himalayan Wheels is a full-stack car rental demonstration designed for browsing vehicles and managing reservations in a Nepal-focused setting. The system presents a six-vehicle sample fleet, sample daily rates in Nepalese rupees, and pickup choices in Kathmandu, Pokhara, and Chitwan. Visitors can explore vehicle categories, search models, sort prices, and check availability for selected dates. Registered users can reserve a vehicle, review their own booking history, and cancel a reservation before its pickup date. Rental owners can sign in to review customer booking orders.
 
 The frontend uses React and responsive CSS. An Express API implements authentication, booking rules, and authorization, while SQLite stores users, sessions, cars, and bookings. The server calculates the rental total from its own daily rate and validates the date range. A transaction encloses the final availability check and insertion so that overlapping confirmed bookings for the same vehicle are rejected.
 
@@ -57,6 +57,7 @@ Keywords: React, car rental, reservation, Express, SQLite, date availability, fu
 - Future Enhancements — page 18
 - References — page 19
 - Appendix — page 20
+- Appendix: Owner and User Accounts — page 21
 
 <!-- Page 4 -->
 # List of Abbreviations
@@ -91,6 +92,7 @@ Figure 6  Account registration .................................................
 Figure 7  Reservation and price review ..................................... 15
 Figure 8  Booking history ........................................................ 16
 Figure 9  Mobile homepage .................................................... 16
+Figure 10  Owner booking dashboard ..................................... 21
 
 ## List of Tables
 
@@ -116,7 +118,7 @@ A car rental workflow connects a travel plan to a particular vehicle over a defi
 
 Himalayan Wheels models this workflow with a small Nepal-oriented sample fleet. It focuses on the transition from public vehicle discovery to authenticated reservation management. The client provides immediate interaction and price previews; the server remains responsible for deciding whether a booking is valid. This division makes the project suitable for demonstrating the relationship between presentation, business rules, and persistent data.
 
-The intended users are visitors browsing the fleet, registered customers managing their own bookings, and a developer operating the local demonstration. The implementation has no administrator dashboard or commercial fleet-management role. Its value is an inspectable, runnable example of the main customer booking journey.
+The intended users are visitors browsing the fleet, registered customers managing their own bookings, and rental owners reviewing customer orders. The owner dashboard is read-only and uses backend role checks. It is not a commercial fleet-management system.
 
 <!-- Page 6 -->
 # Problem Statement
@@ -171,7 +173,7 @@ The implemented scope covers public discovery and private reservation management
 
 The customer selects one of three pickup cities and returns the vehicle to the same city. The application does not model where a vehicle is physically located, repositioning between cities, pickup times, driver services, maintenance blocks, or turnaround buffers. A return date is exclusive, so another rental can start on that date. These assumptions simplify the demonstration and must be revisited before commercial use.
 
-The optional GitHub Pages preview uses local browser storage and a demo identity; it does not provide the authentication or shared-database guarantees of the full-stack application. No money, driving license, identity document, or insurance information is collected. Payment is described as due at pickup, but no actual rental service is issued. There is no administrator interface, email verification, password reset, notification delivery, or multi-user staff workflow. SQLite is used on a single application server; horizontal scaling is outside the current scope.
+The optional GitHub Pages preview uses local browser storage and a demo identity; it does not provide the authentication or shared-database guarantees of the full-stack application. No money, driving license, identity document, or insurance information is collected. Payment is described as due at pickup, but no actual rental service is issued. A read-only owner dashboard is included. Email verification, password reset, notifications, and broader staff operations remain outside the scope. SQLite is used on a single application server; horizontal scaling is outside the current scope.
 
 ## Requirement Analysis
 
@@ -187,6 +189,7 @@ Table 1  Functional requirements
 | FR6 | Reject overlapping reservations | A second conflicting booking returns HTTP 409. |
 | FR7 | Manage private bookings | History and cancellation are limited to the booking owner. |
 | FR8 | Cancel future reservations | Cancellation changes status and releases availability. |
+| FR9 | Owner order dashboard | Only owners can read all customer booking orders. |
 
 <!-- Page 9 -->
 # Requirement Analysis and Technology Stack
@@ -250,7 +253,7 @@ Table 3  Database entities
 
 | Entity | Key fields | Relationships and purpose |
 | --- | --- | --- |
-| users | id PK; name; email UNIQUE; password | One user owns many sessions and bookings. Stores a salted password hash. |
+| users | id PK; name; email UNIQUE; password; role | Customer or owner role; stores a salted password hash. |
 | sessions | token PK; user_id FK; expires | Maps a token digest to one user until the expiry time. |
 | cars | id PK; name; category; seats; transmission; fuel; price; color; description | One record represents one reservable physical demo vehicle. |
 | bookings | id PK; user_id FK; car_id FK; pickup; start_date; end_date; days; daily_rate; total; status; created_at | Stores ownership, interval, rate snapshot, total and cancellation status. |
@@ -289,21 +292,22 @@ Table 4  API endpoints
 | GET /api/auth/me | Signed in | Returns the current user identity. |
 | POST /api/auth/logout | Signed in | Removes the session and clears its cookie. |
 | GET /api/bookings | Signed in | Returns only the current user's reservations. |
-| POST /api/bookings | Signed in | Validates and transactionally reserves a vehicle. |
-| PATCH /api/bookings/:id/cancel | Owner | Cancels a confirmed future reservation. |
+| POST /api/bookings | Customer | Validates and transactionally reserves a vehicle. |
+| PATCH /api/bookings/:id/cancel | Customer | Cancels a confirmed future reservation. |
 | GET /api/health | Public | Returns an application health response. |
+| GET /api/owner/bookings | Owner | Lists all customer booking orders. |
 
 ## Authentication and session handling
 
 Registration requires a name, an email-shaped address, and an 8–128 character password. Email addresses are normalized to lowercase and must be unique. Passwords use scrypt with a random 16-byte salt, N=131072, r=8, p=1, and a 64-byte output. Authentication attempts are limited to 30 per 15-minute window per client address. This implementation uses synchronous hashing and is intended for modest demonstration traffic.
 
-A successful authentication creates a random 32-byte token, stores its SHA-256 digest, and sets a seven-day session cookie. The raw token is not stored in the database. Protected handlers obtain the user identity from the session rather than accepting a user ID from the browser. Cancellation looks up the booking by both its ID and current owner.
+A successful authentication creates a random 32-byte token, stores its SHA-256 digest, and sets a seven-day session cookie. The raw token is not stored in the database. Protected handlers obtain the user identity from the session rather than accepting a user ID from the browser. Cancellation checks the booking ID and customer ID. Owner routes additionally require the owner role from the database; public registration cannot grant that role.
 
 ## Frontend state and feedback
 
 React state tracks the chosen trip, selected vehicle, authentication dialog, fleet filters, bookings, and messages. Date changes clear prior availability markers to avoid showing stale results. A guest can start a reservation and sign in without losing edited trip details. Busy states reduce repeated submissions; server errors remain visible when a reservation fails. Native dialog behavior and explicit focus restoration support keyboard use.
 
-HTTP responses distinguish malformed input (400), missing authentication (401), failed request verification (403), unavailable records (404), and reservation conflicts (409). Successful creation returns 201. The UI displays the corresponding message and keeps the user in the relevant workflow.
+HTTP responses distinguish malformed input (400), missing authentication (401), failed verification or role checks (403), unavailable records (404), and reservation conflicts (409). Successful creation returns 201. The UI displays the corresponding message and keeps the user in the relevant workflow.
 
 <!-- Page 13 -->
 # Project Structure and File Organization
@@ -314,11 +318,13 @@ Himalayan-Wheels/
     main.jsx                 React components and API client
     styles.css               Responsive site design
     preview-api.js           Browser-only Pages adapter
+    OwnerDashboard.jsx       Customer order overview
   shared/fleet.js            Shared demonstration fleet
   server/
     app.js                   Routes and booking rules
     db.js                    Schema and demo fleet
     index.js                 Startup and graceful shutdown
+    create-owner.js          Local owner setup command
   tests/
     api.test.js              API integration scenario
   docs/
@@ -340,7 +346,7 @@ Himalayan-Wheels/
 
 ## Organization decisions
 
-The client and server are separated by directory and communicate only through the API. The frontend uses reusable components for the logo, vehicle photos, modal, authentication, and booking form. The App component coordinates navigation and shared state. The backend database module owns schema initialization and fleet seeding, while app.js defines request handling and exports an application factory for tests.
+The client and server are separated by directory and communicate only through the API. The frontend uses reusable components for the logo, vehicle photos, modal, authentication, and booking form. The App component coordinates navigation and shared state. The database module initializes schema and fleet data; app.js defines API rules. OwnerDashboard.jsx renders orders, owners.js provisions owner accounts, and passwords.js shares password hashing.
 
 Generated dependencies, frontend build output, local logs, and database files are excluded from Git. The source repository retains the dependency lockfile so another developer can reproduce the installation with npm ci. Tests create a disposable database in the operating system temporary directory, avoiding changes to the user's demonstration data.
 
@@ -420,7 +426,7 @@ The application and report are suitable for local demonstration, source review, 
 
 ## Future Enhancements
 
-- Staff operations: introduce an administrator role, audited fleet updates, maintenance blocks, pickup inspection, return inspection, and controlled booking changes.
+- Staff operations: extend the read-only owner dashboard with audited fleet updates, maintenance blocks, pickup and return inspections, and controlled booking changes.
 - Real inventory: model each vehicle's actual branch, relocation time, pickup and return timestamps, cleaning buffers, and location-dependent availability.
 - Customer accounts: add verified email, password recovery, configurable cancellation terms, notification delivery, and downloadable booking documents.
 - Payments: integrate a supported payment provider, verified callbacks, idempotency controls, deposits, refunds, and reconciliation before accepting real money.
@@ -465,7 +471,7 @@ https://github.com/Anish00079/Himalayan-Wheels-
 
 ## Source use
 
-The cited documentation supports the technical design discussion. Package versions in the technology table come from the delivered dependency lockfile. Implementation descriptions and validation results refer to the delivered source and executed tests. The fleet data and rates are project examples and are not attributed to an external rental operator. Vehicle photographs are sourced from Meromoto (https://meromoto.com/), with individual source links in Image-Credits.md.
+The cited documentation supports the technical design discussion. Package versions in the technology table come from the delivered dependency lockfile. Implementation descriptions and validation results refer to the delivered source and executed tests. Fleet data and rates are project examples. Sajilo Rental (https://sajilorental.com/) informed the search, destination, and category layout; business claims and customer reviews were not reused. Vehicle photographs are sourced from Meromoto (https://meromoto.com/), with individual source links in Image-Credits.md.
 
 <!-- Page 20 -->
 # Appendix
@@ -501,3 +507,20 @@ If the port is in use, stop the earlier server or select another PORT. If the fr
 Stop the server before backing up the entire data folder. Do not commit the database, session records, or local secrets. A live deployment must preserve the database across releases. GitHub Pages cannot run this API; the repository is the publication destination for this delivery, and full-stack hosting is a separate future step. The Pages preview uses local browser storage and does not exercise the server authentication or shared reservation database.
 
 Before academic submission, replace the cover-page fields for student name, roll number, institution, course, and supervisor. The editable Markdown report and the Python report source are included so the document can be customized.
+
+<!-- Page 21 -->
+# Appendix: Owner and User Accounts
+
+## Local owner account setup
+
+Run npm run owner:create in the project folder. Enter an owner name, a separate email, and a password of 12-128 characters. Password input is hidden and requires confirmation. If DB_PATH is customized, use the same value as the application server. Existing customer accounts are not promoted or overwritten.
+
+Customers choose User in the sign-in form and create an account to reserve a car. Owners choose Owner login and enter the credentials created above. Public registration always stores the customer role. Existing databases are migrated without removing users or reservations.
+
+![Figure 10  Owner dashboard showing a customer booking order](report-images/10-owner-orders.png)
+
+The owner dashboard includes customer names and emails, vehicles, dates, location, totals, and status. Owners can search, filter by status, and refresh orders. Confirmed booking value is not payment revenue. Server checks reject unauthenticated access and customer access to the owner endpoint.
+
+## GitHub demo and verification
+
+The Pages demo offers User and Owner choices without passwords. Create a booking as the demo traveller, sign out, and continue as the demo owner in the same browser. These are browser-only sample orders. Tests cover real owner login, customer isolation, role tampering, database migration, saved orders after restart, cancellation visibility, and responsive browser interaction.
