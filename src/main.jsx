@@ -11,7 +11,6 @@ import {
   Gauge,
   Fuel,
   Check,
-  ShieldCheck,
   KeyRound,
   Leaf,
   X,
@@ -22,7 +21,6 @@ import {
   CarFront,
   Route,
   CheckCircle2,
-  Clock3,
 } from "lucide-react";
 import "./styles.css";
 import "./theme.css";
@@ -568,8 +566,10 @@ function App() {
               Home
             </button>
             <button onClick={() => nav("fleet")}>Our fleet</button>
-            <button onClick={() => nav("destinations")}>Destinations</button>
-            <button onClick={() => nav("how")}>How it works</button>
+            <button onClick={() => nav("destinations")}>
+              Pickup locations
+            </button>
+            <button onClick={() => nav("how")}>Booking guide</button>
             <button
               className={
                 page === "bookings" || page === "owner" ? "selected" : ""
@@ -635,27 +635,34 @@ function App() {
           <section className="hero" id="home">
             <div className="hero-inner">
               <div className="hero-copy">
-                <span className="hero-kicker">Himalayan Wheels</span>
+                <span className="hero-kicker">
+                  Kathmandu · Pokhara · Chitwan
+                </span>
                 <h1>Car rental in Nepal</h1>
                 <p>
-                  Compare cars, check availability, and book a vehicle for your
-                  trip. Pickup options in Kathmandu, Pokhara, and Chitwan.
+                  Choose your car and rental dates. See the daily rate, check
+                  availability, and keep your reservation in one place.
                 </p>
-                <button className="cream-button" onClick={() => nav("fleet")}>
-                  Explore our fleet
-                  <ArrowRight size={18} />
-                </button>
+                <p className="hero-rental-note">
+                  Daily rentals from 1 to 30 days. Prices in NPR.
+                </p>
               </div>
               <div className="hero-vehicle">
-                <CarPhoto carId="creta" name="Hyundai Creta" hero />
+                <CarPhoto
+                  carId="creta-3"
+                  name="Hyundai Creta on a mountain road"
+                  hero
+                />
+                <span className="hero-caption">
+                  Hyundai Creta · 5 seats · Automatic
+                </span>
               </div>
             </div>
           </section>
           <div className="search-wrap rental-search-panel">
             <div className="rental-search-heading">
               <div>
-                <span className="eyebrow">Plan your rental</span>
-                <h2>Find a car for your trip</h2>
+                <h2>Check availability</h2>
               </div>
               <span>Daily rates in NPR</span>
             </div>
@@ -663,7 +670,7 @@ function App() {
               <label>
                 <span>
                   <MapPin size={16} />
-                  PICKUP LOCATION
+                  Pickup location
                 </span>
                 <select
                   aria-label="Pickup location"
@@ -677,7 +684,7 @@ function App() {
               </label>
               <label>
                 <span>
-                  <CarFront size={16} /> VEHICLE TYPE
+                  <CarFront size={16} /> Vehicle type
                 </span>
                 <select
                   aria-label="Search vehicle type"
@@ -694,7 +701,7 @@ function App() {
               <label>
                 <span>
                   <CalendarDays size={16} />
-                  PICKUP DATE
+                  Pickup date
                 </span>
                 <input
                   aria-label="Search pickup date"
@@ -708,7 +715,7 @@ function App() {
               <label>
                 <span>
                   <CalendarDays size={16} />
-                  RETURN DATE
+                  Return date
                 </span>
                 <input
                   aria-label="Search return date"
@@ -721,119 +728,21 @@ function App() {
               </label>
               <button className="primary" disabled={busy}>
                 <Search size={17} />
-                {busy ? "Checking…" : "Find my ride"}
+                {busy ? "Checking…" : "Search cars"}
               </button>
             </form>
           </div>
-          <section className="benefits content-width">
-            <div>
-              <ShieldCheck />
-              <span>
-                <strong>Clear rental pricing</strong>
-                <small>Know your total before you book</small>
-              </span>
-            </div>
-            <div>
-              <KeyRound />
-              <span>
-                <strong>Vehicle options</strong>
-                <small>City cars, SUVs & electric options</small>
-              </span>
-            </div>
-            <div>
-              <CalendarDays />
-              <span>
-                <strong>Cancellation policy</strong>
-                <small>Cancel before your pickup day</small>
-              </span>
-            </div>
-          </section>
-          <section
-            className="destinations-section content-width"
-            id="destinations"
-          >
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">Pickup locations</span>
-                <h2>Where does your trip begin?</h2>
-                <p className="muted">
-                  Choose a city to set your pickup and return location.
-                </p>
-              </div>
-            </div>
-            <div className="destination-grid">
-              {[
-                ["Kathmandu", "Start your rental in the capital."],
-                ["Pokhara", "Plan a visit to the lakeside city."],
-                ["Chitwan", "Arrange your journey in the Terai."],
-              ].map(([city, description]) => (
-                <button
-                  key={city}
-                  className={
-                    "destination-card " + (trip.pickup === city ? "chosen" : "")
-                  }
-                  aria-label={"Choose " + city + " pickup"}
-                  aria-pressed={trip.pickup === city}
-                  onClick={() => {
-                    changeTrip("pickup", city);
-                    nav("fleet");
-                    setToast("Pickup and return location set to " + city + ".");
-                  }}
-                >
-                  <MapPin size={24} />
-                  <strong>{city}</strong>
-                  <span>{description}</span>
-                  <small>
-                    {trip.pickup === city ? "Selected pickup" : "Choose pickup"}
-                    <ArrowUpRight size={15} />
-                  </small>
-                </button>
-              ))}
-            </div>
-          </section>
-          <section className="categories-section content-width" id="categories">
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">Browse by vehicle type</span>
-                <h2>A car for your plans</h2>
-              </div>
-            </div>
-            <div className="category-grid">
-              {[
-                ["SUV", "creta", "Hyundai Creta"],
-                ["Sedan", "city", "Honda City"],
-                ["Hatchback", "swift", "Suzuki Swift"],
-                ["Electric", "nexon", "Tata Nexon EV"],
-              ].map(([type, id, name]) => (
-                <button
-                  className="category-card"
-                  key={type}
-                  aria-label={"Browse " + type + " cars"}
-                  onClick={() => {
-                    setCategory(type);
-                    setTripCategory(type);
-                    setSearch("");
-                    nav("fleet");
-                  }}
-                >
-                  <CarPhoto carId={id} name={name} />
-                  <span>
-                    <strong>{type}</strong>
-                    <ArrowUpRight size={18} />
-                  </span>
-                </button>
-              ))}
-            </div>
-          </section>
           <section className="fleet content-width" id="fleet">
             <div className="section-heading">
               <div>
-                <span className="eyebrow">Browse vehicles</span>
                 <h2>Available cars</h2>
+                <p className="muted">
+                  Compare daily rates. Select a car for photos and rental
+                  details.
+                </p>
               </div>
               <span className="fleet-count">
-                {cars.length} vehicles
-                <ArrowUpRight size={18} />
+                {visible.length} of {cars.length} vehicles
               </span>
             </div>
             <div className="fleet-toolbar">
@@ -895,7 +804,6 @@ function App() {
                 {visible.map((car, i) => (
                   <article className="car-card" key={car.id}>
                     <div className={"car-visual visual-" + (i % 3)}>
-                      <span className="vehicle-tag">{car.category}</span>
                       {car.available !== null && (
                         <span
                           className={
@@ -976,16 +884,54 @@ function App() {
               pickup location.
             </p>
           </section>
+          <section
+            className="destinations-section content-width"
+            id="destinations"
+          >
+            <div className="section-heading">
+              <div>
+                <h2>Pickup locations</h2>
+                <p className="muted">
+                  Choose a city to set your pickup and return location.
+                </p>
+              </div>
+            </div>
+            <div className="destination-grid">
+              {[
+                ["Kathmandu", "Pickup and return in Kathmandu."],
+                ["Pokhara", "Pickup and return in Pokhara."],
+                ["Chitwan", "Pickup and return in Chitwan."],
+              ].map(([city, description]) => (
+                <button
+                  key={city}
+                  className={
+                    "destination-card " + (trip.pickup === city ? "chosen" : "")
+                  }
+                  aria-label={"Choose " + city + " pickup"}
+                  aria-pressed={trip.pickup === city}
+                  onClick={() => {
+                    changeTrip("pickup", city);
+                    nav("fleet");
+                    setToast("Pickup and return location set to " + city + ".");
+                  }}
+                >
+                  <MapPin size={24} />
+                  <strong>{city}</strong>
+                  <span>{description}</span>
+                  <small>
+                    {trip.pickup === city ? "Selected pickup" : "Choose pickup"}
+                    <ArrowUpRight size={15} />
+                  </small>
+                </button>
+              ))}
+            </div>
+          </section>
           <section className="how-section" id="how">
             <div className="content-width">
               <div className="section-heading">
                 <div>
-                  <span className="eyebrow">Booking information</span>
                   <h2>How to book</h2>
                 </div>
-                <span className="how-mark">
-                  <Mountain size={38} />
-                </span>
               </div>
               <div className="steps">
                 {[
@@ -1024,22 +970,16 @@ function App() {
           </section>
           <section className="rental-info content-width" id="about">
             <div>
-              <span className="eyebrow">About Himalayan Wheels</span>
-              <h2>One place to find and reserve a car</h2>
+              <h2>Rental information</h2>
               <p>
-                Compare daily prices, choose your rental dates, and keep track
-                of your booking. Himalayan Wheels brings vehicle selection and
-                reservations together for trips starting in Kathmandu, Pokhara
-                or Chitwan.
+                Rentals are calculated by the day, for a minimum of one day and
+                a maximum of 30 days. Select the same city for pickup and
+                return. Your full rental total is shown before confirmation.
               </p>
               <p>
-                Owners have a separate dashboard to review customer booking
-                orders.
+                Need to change your plans? You can cancel from My bookings
+                before your pickup date.
               </p>
-              <button className="secondary" onClick={ownerAccess}>
-                Open owner login
-                <ArrowUpRight size={16} />
-              </button>
             </div>
             <div className="rental-faq">
               <h2>Before you book</h2>
@@ -1159,7 +1099,7 @@ function App() {
             <div>
               <span className="eyebrow">EXPLORE</span>
               <button onClick={() => nav("fleet")}>Our fleet</button>
-              <button onClick={() => nav("how")}>How it works</button>
+              <button onClick={() => nav("how")}>Booking guide</button>
               <button onClick={() => nav("bookings")}>
                 {user?.role === "owner" ? "Owner orders" : "My bookings"}
               </button>

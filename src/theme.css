@@ -1,24 +1,21 @@
-/* Shared colour palette. Layout and responsive rules live in styles.css. */
+/* Rental storefront: white surfaces, readable type, one brand accent. */
 :root {
-  --navy: #16324f;
-  --navy-deep: #10263d;
-  --teal: #087f7a;
-  --teal-dark: #06645f;
-  --ink: #20364a;
-  --muted: #536779;
-  --line: #d4e1e8;
-  --mint: #e8f5f1;
-  --blue: #edf4fa;
+  --brand: #b24425;
+  --brand-hover: #90361d;
+  --ink: #22272b;
+  --muted: #606568;
+  --line: #dededb;
+  --surface: #f5f5f2;
+  font-family: Arial, Helvetica, sans-serif;
   color: var(--ink);
   background: #fff;
 }
-
 ::selection {
-  background: #bfe8df;
-  color: var(--navy-deep);
+  background: #f1d7cb;
+  color: var(--ink);
 }
 :is(button, input, select, a, summary):focus-visible {
-  outline: 3px solid #247fbc;
+  outline: 3px solid #2b6a99;
   outline-offset: 3px;
 }
 h1,
@@ -26,267 +23,493 @@ h2,
 h3,
 .car-title h3,
 .vehicle-use strong {
-  color: var(--navy);
+  color: var(--ink);
 }
-.eyebrow,
-.hero-kicker,
-.benefits svg {
-  color: var(--teal-dark);
+h1,
+h2,
+h3 {
+  letter-spacing: -0.4px;
 }
 .muted,
-.hero p,
 .card-description,
 .rental-info p {
   color: var(--muted);
 }
-.service-bar,
-.site-header {
-  background: var(--navy);
-  color: #fff;
+.eyebrow {
+  color: var(--muted);
 }
 .service-bar {
-  background: var(--navy-deep);
+  background: #f2f2ef;
+  color: #505552;
+  border-bottom: 1px solid var(--line);
+}
+.service-bar button {
+  color: var(--ink);
 }
 .site-header {
-  border-color: #294760;
+  height: 84px;
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.nav-wrap {
+  max-width: 1220px;
 }
 .logo-icon,
 .site-footer .logo-icon {
-  background: var(--teal);
-  color: #fff;
+  color: var(--brand);
+  background: transparent;
+  width: 34px;
+}
+.logo > span:last-child {
+  font-size: 15px;
+  letter-spacing: 0.3px;
 }
 .logo > span:last-child > span {
-  color: #bcd5e5;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 3.6px;
+}
+.nav-wrap nav {
+  gap: 26px;
 }
 .nav-wrap nav button {
-  color: #d3e3ed;
+  color: #555;
+  font-size: 14px;
 }
 .nav-wrap nav button:is(.selected, :hover) {
-  color: #fff;
+  color: var(--brand);
 }
 .nav-wrap nav button.selected::after {
-  background: #63d4be;
+  background: var(--brand);
 }
 .site-header .sign-in {
-  color: #fff;
-  border-color: #7492aa;
+  color: var(--ink);
+  border-color: #aaa;
+  border-radius: 2px;
+  font-size: 14px;
 }
 .site-header .sign-in:hover,
-.site-header .icon-button:hover {
-  background: #294760;
+.icon-button:hover {
+  background: var(--surface);
 }
 
 .hero {
-  background: var(--blue);
-  border-color: var(--line);
+  background: #fff;
+  border: 0;
+}
+.hero-inner {
+  min-height: 0;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 50px;
+  padding: 30px 0 0;
+  align-items: center;
 }
 .hero-copy {
-  color: var(--navy);
+  color: var(--ink);
 }
 .hero-kicker {
+  color: var(--brand);
+  font-size: 13px;
   font-weight: 600;
+  margin-bottom: 18px;
+}
+.hero h1 {
+  max-width: 430px;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 410px;
+  margin-bottom: 20px;
+}
+.hero p.hero-rental-note {
+  font-size: 13px;
+  color: var(--ink);
+  margin: 25px 0 0;
+}
+.hero-vehicle {
+  position: relative;
+}
+.hero-car {
+  width: 100%;
+  height: 290px;
+  object-fit: cover;
+}
+.hero-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 9px 13px;
+  color: #fff;
+  background: #252b2e;
+  font-size: 11px;
 }
 .hero-car,
 .car-art {
-  mix-blend-mode: normal;
   filter: none;
+  mix-blend-mode: normal;
 }
 .primary,
 .cream-button,
 .book-button {
-  background: var(--teal);
+  background: var(--brand);
   color: #fff;
-  border-color: var(--teal);
+  border-color: var(--brand);
+  border-radius: 2px;
 }
 .primary:hover,
 .cream-button:hover,
 .book-button:hover {
-  background: var(--teal-dark);
+  background: var(--brand-hover);
   color: #fff;
-  border-color: var(--teal-dark);
+  border-color: var(--brand-hover);
 }
 .secondary {
-  color: var(--navy);
-  border-color: #8da9bb;
+  color: var(--ink);
+  border-color: #aaa;
+  border-radius: 2px;
 }
 .secondary:hover {
-  background: var(--blue);
-}
-.icon-button:hover {
-  background: var(--blue);
+  background: var(--surface);
 }
 .rental-search-panel {
+  margin-top: 25px;
+  padding: 22px 24px 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--brand);
+  border-radius: 0;
+  box-shadow: none;
+}
+.rental-search-heading {
+  margin-bottom: 16px;
+}
+.rental-search-heading h2 {
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: 0;
+}
+.rental-search-heading > span {
+  color: var(--muted);
+}
+.rental-search-panel .trip-search {
+  background: transparent;
+  gap: 15px;
+}
+.rental-search-panel .trip-search label > span {
+  color: #484e51;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+.rental-search-panel .trip-search label > span svg {
+  display: none;
+}
+.rental-search-panel .trip-search :is(input, select) {
+  background: #fff;
+  color: var(--ink);
+  border-color: #b9bdbb;
+  border-radius: 2px;
+  font-size: 14px;
+  margin-top: 8px;
+}
+.rental-search-panel .trip-search .primary {
+  height: 46px;
+}
+.fleet {
+  padding-top: 42px;
+  padding-bottom: 35px;
+}
+.section-heading {
+  margin-bottom: 20px;
+}
+.section-heading h2 {
+  font-size: 27px;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+.section-heading .muted {
+  margin: 0;
+  font-size: 14px;
+}
+.fleet-toolbar {
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 15px;
+}
+.tabs {
+  gap: 7px;
+}
+.tabs button {
+  background: #fff;
   border-color: var(--line);
-  box-shadow: 0 8px 24px #16324f0d;
+  color: #444;
+  border-radius: 2px;
+  font-size: 13px;
 }
-.rental-search-panel .trip-search :is(input, select),
-.order-filters :is(input, select) {
-  border-color: #aec3d0;
+.tabs button.active {
+  color: var(--brand);
+  border-color: var(--brand);
+  background: #fff5ef;
+}
+.tabs button:hover {
+  border-color: var(--brand);
+}
+.fleet-tools select,
+.search-box input {
+  font-size: 13px;
+}
+.car-grid {
+  gap: 24px;
+}
+.car-card {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  box-shadow: none;
+}
+.car-card:hover {
+  border-color: #999;
+  box-shadow: none;
+  transform: none;
+}
+.car-visual,
+.visual-1,
+.visual-2 {
+  height: 235px;
+  padding: 0;
+  background: #eeefec;
+}
+.car-visual .car-art {
+  padding: 0;
+  object-fit: contain;
+}
+.car-body {
+  padding: 18px;
+}
+.car-title h3 {
+  font-size: 21px;
+  font-weight: 700;
+}
+.car-title > span {
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+  font-size: 11px;
+}
+.specs {
+  font-size: 12px;
+  gap: 12px;
+  margin: 16px 0;
+  color: #555;
+}
+.card-description {
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 62px;
+}
+.car-bottom {
+  border-color: var(--line);
+  padding-top: 17px;
+}
+.car-bottom strong {
   color: var(--ink);
+  font-size: 25px;
+  font-weight: 700;
 }
-.trip-search label > span,
-.benefits strong {
-  color: var(--ink);
+.car-bottom strong > span,
+.per-day {
+  font-size: 11px;
+  color: var(--muted);
 }
-.trip-search label svg {
-  color: var(--teal);
+.car-bottom small {
+  font-size: 10px;
 }
-
+.book-button {
+  font-size: 13px;
+  padding: 11px 12px;
+}
+.book-button svg {
+  display: none;
+}
+.photo-count {
+  color: #333;
+  background: #fffffff2;
+  border: 0;
+  border-radius: 2px;
+  font-size: 11px;
+}
+.availability.yes,
+.booking-status {
+  background: #e4f0e6;
+  color: #285e38;
+}
+.availability.no,
+.booking-status.cancelled {
+  background: #f5e6e3;
+  color: #903a31;
+}
+.fleet-note {
+  color: var(--muted);
+  text-align: left;
+  font-size: 12px;
+}
+.destinations-section {
+  padding-top: 28px;
+  padding-bottom: 35px;
+  border-top: 1px solid var(--line);
+}
+.destination-grid {
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
 .destination-card {
-  background: var(--blue);
-  color: var(--navy);
-  border-color: var(--line);
+  background: #fff;
+  border: 0;
+  border-right: 1px solid var(--line);
+  padding: 20px;
+  border-radius: 0;
+  color: var(--ink);
 }
-.destination-card:nth-child(2) {
-  background: var(--mint);
+.destination-card:last-child {
+  border-right: 0;
 }
-.destination-card:nth-child(3) {
-  background: #fbf3e6;
+.destination-card > svg {
+  display: none;
+}
+.destination-card strong {
+  font-size: 19px;
+  margin: 0 0 8px;
 }
 .destination-card > span {
   color: var(--muted);
 }
-.destination-card small,
-.destination-card > svg {
-  color: var(--teal-dark);
+.destination-card small {
+  color: var(--brand);
+  margin-top: 14px;
 }
-.destination-card:is(.chosen, :hover) {
-  border-color: var(--teal);
+.destination-card.chosen {
+  background: var(--surface);
+  box-shadow: inset 0 -2px var(--brand);
 }
-.category-card,
-.car-card {
-  border-color: var(--line);
-  color: var(--navy);
-}
-.category-card:hover,
-.car-card:hover {
-  border-color: #699dba;
-}
-.category-card .car-art,
-.car-visual,
-.visual-1,
-.visual-2 {
-  background: #f2f6f8;
-}
-.tabs button {
-  color: var(--navy);
-  border-color: var(--line);
-}
-.tabs button:hover {
-  background: var(--blue);
-}
-.tabs button.active,
-.login-roles button.active {
-  background: var(--navy);
-  color: #fff;
-}
-.car-title > span {
-  background: var(--blue);
-  color: var(--navy);
-}
-.car-bottom {
-  border-color: var(--line);
-}
-.car-bottom strong,
-.price-summary .total {
-  color: var(--navy);
-}
-.availability.yes,
-.booking-status {
-  background: #def2e8;
-  color: #21613e;
-}
-.availability.no,
-.booking-status.cancelled {
-  background: #f9e9e7;
-  color: #983d36;
-}
-.photo-count {
-  border-color: var(--line);
-  color: var(--navy);
+.destination-card:hover {
+  background: var(--surface);
 }
 .how-section {
-  background: var(--mint);
-  border-color: #d0e5dc;
+  background: var(--surface);
+  border-color: var(--line);
+  padding: 32px 0;
 }
 .step > div > span {
-  background: #fff;
-  color: var(--teal-dark);
-  border-color: #aed5c8;
+  display: none;
+}
+.step > div {
+  margin-bottom: 12px;
+  justify-content: flex-start;
+}
+.step small {
+  font-family: inherit;
+  color: var(--brand);
+  font-size: 15px;
+  font-weight: 700;
 }
 .step h3 {
-  color: var(--navy);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
 }
-.step-number {
-  color: var(--teal-dark);
+.step p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.rental-info {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.rental-info h2 {
+  font-size: 24px;
+}
+.rental-info p {
+  font-size: 14px;
 }
 .rental-faq details {
   border-color: var(--line);
 }
 .rental-faq summary::marker {
-  color: var(--teal);
+  color: var(--brand);
 }
-
 .site-footer {
-  background: var(--navy);
+  background: #262b2d;
   color: #fff;
+}
+.site-footer .logo-icon {
+  color: #df9274;
 }
 .footer-top :is(p, button, a),
 .footer-top .demo-note,
 .footer-bottom,
 .footer-bottom a {
-  color: #cadce8;
+  color: #c4c7c6;
 }
 .footer-top .eyebrow {
-  color: #76dfc9;
+  color: #fff;
 }
 .site-footer .logo > span:last-child > span {
-  color: #bcd5e5;
+  color: #c4c7c6;
 }
 .footer-bottom {
-  border-color: #3a556c;
+  border-color: #4a5052;
 }
 .preview-banner {
-  background: #fff5df;
-  color: #71521b;
-  border-color: #eedcb3;
+  background: #f5eee2;
+  color: #655334;
+  border-color: #e8dac2;
 }
-
+/* The same restrained palette carries through account and booking screens. */
 dialog {
   color: var(--ink);
-  box-shadow: 0 12px 50px #10263d33;
+  border-radius: 3px;
 }
 dialog::backdrop {
-  background: #10263d80;
+  background: #252b2e80;
 }
 .booking-car,
-.booking-thumbnail {
-  background: var(--blue);
-}
+.booking-thumbnail,
 .gallery-main,
 .gallery-thumbnails img {
-  background: #f2f6f8;
+  background: var(--surface);
 }
 .gallery-main,
-.gallery-thumbnails button {
+.gallery-thumbnails button,
+.login-roles {
   border-color: var(--line);
 }
-.gallery-thumbnails button[aria-pressed="true"] {
-  border-color: var(--teal);
+.gallery-thumbnails button.active {
+  border-color: var(--brand);
+}
+.login-roles button.active {
+  background: #303638;
+  color: #fff;
 }
 .vehicle-specifications > div,
 .vehicle-more,
 .price-summary {
   border-color: var(--line);
 }
-.login-roles {
-  border-color: var(--line);
+.price-summary .total {
+  color: var(--ink);
 }
 .auth-notice,
 .owner-demo-note {
-  background: var(--blue);
-  color: var(--navy);
-  border-color: #c4d9e8;
+  background: var(--surface);
+  border-color: var(--line);
+  color: #444;
 }
 .order-summary,
 .order-summary > div,
@@ -295,18 +518,15 @@ dialog::backdrop {
   border-color: var(--line);
 }
 .order-summary {
-  background: var(--blue);
+  background: var(--surface);
 }
 .order-summary dd {
-  color: var(--navy);
+  color: var(--ink);
 }
-.order-table th {
-  background: var(--blue);
-  color: var(--navy);
-}
+.order-table th,
 .order-table caption {
-  background: #f6f9fc;
-  color: var(--muted);
+  background: var(--surface);
+  color: #444;
 }
 .error {
   background: #fff0ee;
@@ -324,12 +544,168 @@ dialog::backdrop {
   color: #963c32;
 }
 .toast {
-  background: var(--navy);
+  background: #303638;
   color: #fff;
 }
-
-@media (max-width: 650px) {
+@media (max-width: 1050px) {
+  .nav-wrap {
+    gap: 18px;
+    padding: 0 24px;
+  }
   .nav-wrap nav {
-    background: var(--navy);
+    gap: 14px;
+  }
+  .nav-wrap nav button {
+    font-size: 12px;
+  }
+  .hero-inner {
+    gap: 25px;
+  }
+  .hero h1 {
+    font-size: 38px;
+  }
+  .car-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .rental-search-panel .trip-search {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .rental-search-panel .trip-search .primary {
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 650px) {
+  .site-header {
+    height: 72px;
+  }
+  .nav-wrap {
+    padding: 0 20px;
+    gap: 12px;
+  }
+  .nav-wrap nav {
+    background: #fff;
+    top: 72px;
+  }
+  .nav-wrap nav button {
+    font-size: 14px;
+  }
+  .logo > span:last-child {
+    font-size: 12px;
+  }
+  .logo > span:last-child > span {
+    font-size: 9px;
+  }
+  .site-header .sign-in {
+    font-size: 12px;
+    padding: 9px 10px;
+    gap: 6px;
+  }
+  .hero-inner {
+    display: flex;
+    padding: 25px 0 0;
+    gap: 20px;
+  }
+  .hero-kicker {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-size: 34px;
+    margin-bottom: 13px;
+  }
+  .hero p {
+    font-size: 14px;
+    margin: 0;
+  }
+  .hero p.hero-rental-note {
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .hero-car {
+    height: 205px;
+  }
+  .hero-caption {
+    font-size: 10px;
+    padding: 7px 10px;
+  }
+  .rental-search-panel {
+    margin-top: 20px;
+    padding: 18px 15px;
+  }
+  .rental-search-heading h2 {
+    font-size: 18px;
+  }
+  .rental-search-panel .trip-search {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 12px;
+  }
+  .rental-search-panel .trip-search label > span {
+    font-size: 11px;
+  }
+  .rental-search-panel .trip-search :is(input, select) {
+    font-size: 13px;
+  }
+  .fleet {
+    padding-top: 28px;
+  }
+  .section-heading {
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .section-heading h2 {
+    font-size: 25px;
+  }
+  .section-heading .muted {
+    font-size: 13px;
+  }
+  .fleet-count {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .fleet-toolbar {
+    gap: 14px;
+  }
+  .tabs button {
+    font-size: 12px;
+    padding: 9px 10px;
+  }
+  .car-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .car-visual {
+    height: auto;
+    aspect-ratio: 3/2;
+  }
+  .car-body {
+    padding: 17px;
+  }
+  .card-description {
+    min-height: 0;
+  }
+  .destination-grid {
+    grid-template-columns: 1fr;
+  }
+  .destination-card {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 18px 15px;
+  }
+  .destination-card:last-child {
+    border-bottom: 0;
+  }
+  .destination-card small {
+    margin-top: 12px;
+  }
+  .how-section {
+    padding: 28px 0;
+  }
+  .step h3 {
+    font-size: 17px;
+  }
+  .rental-info {
+    gap: 22px;
+    padding-top: 28px;
+    padding-bottom: 28px;
   }
 }
