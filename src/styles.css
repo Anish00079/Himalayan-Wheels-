@@ -4,8 +4,8 @@
     Segoe UI,
     Arial,
     sans-serif;
-  color: #20392c;
-  background: #fafbf7;
+  color: #333333;
+  background: #fafafa;
   font-synthesis: none;
   font-size: 14px;
   font-weight: 400;
@@ -40,7 +40,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 a:focus-visible {
-  outline: 3px solid #b58b47;
+  outline: 3px solid #8f8f8f;
   outline-offset: 3px;
 }
 button {
@@ -72,7 +72,7 @@ h2 {
   line-height: 1.3;
 }
 .muted {
-  color: #84917f;
+  color: #8d8d8d;
   font-size: 13px;
 }
 .eyebrow {
@@ -80,7 +80,7 @@ h2 {
   font-size: 9px;
   letter-spacing: 2px;
   font-weight: 650;
-  color: #8a967c;
+  color: #929292;
   margin-bottom: 13px;
 }
 .content-width {
@@ -89,11 +89,11 @@ h2 {
 }
 .site-header {
   height: 88px;
-  background: #fafbf7;
+  background: #fafafa;
   position: sticky;
   top: 0;
   z-index: 20;
-  border-bottom: 1px solid #e8ebdf;
+  border-bottom: 1px solid #e9e9e9;
 }
 .nav-wrap {
   max-width: 1260px;
@@ -118,8 +118,8 @@ h2 {
 .logo-icon {
   display: grid;
   place-items: center;
-  background: #234734;
-  color: #d6ddb9;
+  background: #3e3e3e;
+  color: #d9d9d9;
   width: 40px;
   height: 43px;
   border-radius: 4px;
@@ -134,7 +134,7 @@ h2 {
   display: block;
   font-size: 9px;
   letter-spacing: 5.5px;
-  color: #889372;
+  color: #8e8e8e;
   font-weight: 500;
 }
 .nav-wrap nav {
@@ -147,11 +147,11 @@ h2 {
   background: none;
   padding: 12px 0;
   font-size: 11px;
-  color: #809074;
+  color: #8b8b8b;
   position: relative;
 }
 .nav-wrap nav button.selected {
-  color: #244932;
+  color: #3f3f3f;
   font-weight: 650;
 }
 .nav-wrap nav button.selected:after {
@@ -160,7 +160,7 @@ h2 {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #6d8154;
+  background: #797979;
   bottom: 0;
   left: 50%;
 }
@@ -173,7 +173,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 22px;
-  border: 1px solid #cdd6c3;
+  border: 1px solid #d3d3d3;
   background: none;
   border-radius: 5px;
   padding: 11px 17px;
@@ -192,7 +192,7 @@ h2 {
   border-radius: 6px;
 }
 .icon-button:hover {
-  background: #e8eddc;
+  background: #ebebeb;
 }
 .mobile-menu {
   display: none;
@@ -211,18 +211,18 @@ h2 {
   white-space: nowrap;
 }
 .primary {
-  background: #254b36;
-  color: #f6f6e7;
+  background: #414141;
+  color: #f5f5f5;
 }
 .primary:hover {
-  background: #173b27;
+  background: #323232;
 }
 .secondary {
-  background: #fff;
-  border: 1px solid #dbe2d0;
+  background: #ffffff;
+  border: 1px solid #dfdfdf;
 }
 .danger {
-  background: #9b4d3b;
+  background: #5c5c5c;
   color: white;
 }
 .full {
@@ -232,7 +232,7 @@ h2 {
   position: relative;
   isolation: isolate;
   height: 530px;
-  background: #607b61;
+  background: #737373;
   overflow: hidden;
 }
 .landscape {
@@ -247,9 +247,9 @@ h2 {
   inset: 0;
   background: linear-gradient(
     90deg,
-    #173725f5 0%,
-    #203b2ca8 40%,
-    #214b3022 75%
+    #2f2f2ff5 0%,
+    #343434a8 40%,
+    #40404022 75%
   );
   z-index: -2;
 }
@@ -261,7 +261,7 @@ h2 {
 }
 .hero-copy {
   padding-top: 63px;
-  color: #f6f5e9;
+  color: #f4f4f4;
   position: relative;
   z-index: 3;
 }
@@ -271,14 +271,14 @@ h2 {
   gap: 8px;
   font-size: 9px;
   letter-spacing: 2px;
-  color: #c8d2ad;
+  color: #cdcdcd;
   margin-bottom: 26px;
 }
 .hero-kicker > span {
   display: block;
   width: 5px;
   height: 5px;
-  background: #b9c68d;
+  background: #bfbfbf;
   border-radius: 50%;
 }
 .hero h1 {
@@ -289,18 +289,18 @@ h2 {
   margin: 0 0 23px;
 }
 .hero h1 em {
-  color: #d5dfb4;
+  color: #dadada;
   font-weight: 400;
 }
 .hero p {
   font-size: 12px;
-  color: #becbb4;
+  color: #c7c7c7;
   line-height: 1.9;
   margin-bottom: 25px;
 }
 .cream-button {
-  background: #e4e9cb;
-  color: #2b4932;
+  background: #e6e6e6;
+  color: #414141;
   padding: 13px 20px;
   display: flex;
   gap: 26px;
@@ -314,7 +314,7 @@ h2 {
   align-items: center;
   gap: 7px;
   font-size: 9px;
-  color: #aabb97;
+  color: #b5b5b5;
   margin-top: 26px;
 }
 .hero-vehicle {
@@ -326,15 +326,15 @@ h2 {
 }
 .hero-car {
   width: 100%;
-  filter: drop-shadow(0 20px 15px #0d201855);
+  filter: drop-shadow(0 20px 15px #1b1b1b55);
 }
 .adventure-label {
   position: absolute;
   right: 20px;
   top: 6px;
-  color: #e6ecd7;
-  border: 1px solid #b1bca655;
-  background: #29463377;
+  color: #e9e9e9;
+  border: 1px solid #b8b8b855;
+  background: #3e3e3e77;
   backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
@@ -348,7 +348,7 @@ h2 {
   position: absolute;
   right: 2px;
   top: 30px;
-  color: #f4f1d5;
+  color: #f0f0f0;
   font-size: 8px;
   letter-spacing: 1px;
   text-align: right;
@@ -370,16 +370,16 @@ h2 {
   grid-template-columns: 1.2fr 1fr 1fr auto;
   align-items: center;
   gap: 30px;
-  background: #fff;
+  background: #ffffff;
   padding: 23px 26px;
-  border: 1px solid #e0e5d7;
+  border: 1px solid #e3e3e3;
   border-radius: 8px;
-  box-shadow: 0 9px 30px #243e2810;
+  box-shadow: 0 9px 30px #37373710;
 }
 .trip-search label {
   margin: 0;
   padding-right: 23px;
-  border-right: 1px solid #e5e9de;
+  border-right: 1px solid #e7e7e7;
   min-width: 0;
 }
 .trip-search label > span {
@@ -388,7 +388,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #93a086;
+  color: #9b9b9b;
 }
 .trip-search input,
 .trip-search select {
@@ -408,7 +408,7 @@ h2 {
   grid-template-columns: repeat(3, 1fr);
   gap: 50px;
   padding: 29px 24px 31px;
-  border-bottom: 1px solid #e4e8dc;
+  border-bottom: 1px solid #e6e6e6;
 }
 .benefits > div {
   display: flex;
@@ -417,7 +417,7 @@ h2 {
   justify-content: center;
 }
 .benefits svg {
-  color: #758866;
+  color: #828282;
   width: 24px;
   height: 24px;
   stroke-width: 1.3;
@@ -430,7 +430,7 @@ h2 {
 }
 .benefits small {
   font-size: 9px;
-  color: #98a08c;
+  color: #9d9d9d;
 }
 .fleet {
   padding-top: 52px;
@@ -448,7 +448,7 @@ h2 {
 }
 .fleet-count {
   font-size: 9px;
-  color: #859375;
+  color: #8e8e8e;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -472,15 +472,15 @@ h2 {
   gap: 4px;
   background: transparent;
   padding: 10px 16px;
-  border: 1px solid #dde4d4;
+  border: 1px solid #e1e1e1;
   border-radius: 4px;
   font-size: 10px;
-  color: #7e8c70;
+  color: #878787;
 }
 .tabs button.active {
-  background: #254b36;
-  color: #fff;
-  border-color: #254b36;
+  background: #414141;
+  color: #ffffff;
+  border-color: #414141;
 }
 .fleet-tools {
   display: flex;
@@ -488,12 +488,12 @@ h2 {
   gap: 10px;
 }
 .fleet-tools select {
-  border: 1px solid #e0e6d7;
+  border: 1px solid #e4e4e4;
   font-size: 9px;
   border-radius: 4px;
   background: transparent;
   padding: 9px;
-  color: #889779;
+  color: #929292;
   margin: 0;
   max-width: 145px;
 }
@@ -501,7 +501,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #8f9b80;
+  color: #969696;
 }
 .search-box input {
   width: 110px;
@@ -517,7 +517,7 @@ h2 {
   gap: 23px;
 }
 .car-card {
-  border: 1px solid #e0e6d7;
+  border: 1px solid #e4e4e4;
   border-radius: 9px;
   overflow: hidden;
   background: white;
@@ -527,19 +527,19 @@ h2 {
 }
 .car-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 25px #1d392510;
+  box-shadow: 0 12px 25px #32323210;
 }
 .car-visual {
   height: 194px;
   position: relative;
   padding: 12px 10px 0;
-  background: radial-gradient(ellipse at bottom, #e0e6d7 0%, #f1f3ea 65%);
+  background: radial-gradient(ellipse at bottom, #e4e4e4 0%, #f2f2f2 65%);
 }
 .visual-1 {
-  background: radial-gradient(ellipse at bottom, #ebe4d4 0%, #f7f4eb 65%);
+  background: radial-gradient(ellipse at bottom, #e4e4e4 0%, #f4f4f4 65%);
 }
 .visual-2 {
-  background: radial-gradient(ellipse at bottom, #dce3de 0%, #edf1eb 65%);
+  background: radial-gradient(ellipse at bottom, #e1e1e1 0%, #f0f0f0 65%);
 }
 .vehicle-tag {
   position: absolute;
@@ -547,7 +547,7 @@ h2 {
   top: 19px;
   font-size: 7px;
   letter-spacing: 1px;
-  color: #879276;
+  color: #8e8e8e;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -566,7 +566,7 @@ h2 {
   right: 14px;
   font-size: 5px;
   letter-spacing: 1.2px;
-  color: #a4ae97;
+  color: #aaaaaa;
 }
 .availability {
   position: absolute;
@@ -577,12 +577,12 @@ h2 {
   padding: 5px 7px;
 }
 .availability.yes {
-  background: #dce8cf;
-  color: #537544;
+  background: #e4e4e4;
+  color: #6a6a6a;
 }
 .availability.no {
-  background: #efd9d0;
-  color: #9a604b;
+  background: #dddddd;
+  color: #6b6b6b;
 }
 .car-body {
   padding: 20px;
@@ -602,14 +602,14 @@ h2 {
 .car-title > span {
   font-size: 8px;
   padding: 5px 8px;
-  background: #f2f4ec;
-  color: #919c83;
+  background: #f3f3f3;
+  color: #989898;
   border-radius: 4px;
 }
 .specs {
   display: flex;
   gap: 14px;
-  color: #8b987f;
+  color: #939393;
   font-size: 9px;
   margin: 17px 0 20px;
 }
@@ -623,7 +623,7 @@ h2 {
   stroke-width: 1.5;
 }
 .car-bottom {
-  border-top: 1px solid #edf0e7;
+  border-top: 1px solid #efefef;
   padding-top: 17px;
   display: flex;
   justify-content: space-between;
@@ -634,7 +634,7 @@ h2 {
   font-size: 6px;
   letter-spacing: 1.5px;
   display: block;
-  color: #a4ae96;
+  color: #aaaaaa;
   margin-bottom: 4px;
 }
 .car-bottom strong {
@@ -649,7 +649,7 @@ h2 {
 }
 .per-day {
   font-size: 9px;
-  color: #98a58a;
+  color: #a0a0a0;
   margin-left: 4px;
 }
 .book-button {
@@ -658,29 +658,29 @@ h2 {
   gap: 10px;
   padding: 10px 12px;
   font-size: 9px;
-  border: 1px solid #d5dfca;
+  border: 1px solid #dbdbdb;
   border-radius: 4px;
   background: none;
   font-weight: 600;
 }
 .book-button:hover {
-  background: #edf2e5;
+  background: #f0f0f0;
 }
 .fleet-note {
   text-align: center;
   font-size: 9px;
-  color: #99a48c;
+  color: #a0a0a0;
   margin: 22px 0 0;
 }
 .how-section {
-  background: #f0f2e7;
-  border-top: 1px solid #e7ebdd;
-  border-bottom: 1px solid #e7ebdd;
+  background: #f1f1f1;
+  border-top: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
   padding: 44px 0 48px;
 }
 .how-mark {
-  color: #9daa80;
-  border: 1px solid #d5dfc4;
+  color: #a4a4a4;
+  border: 1px solid #dbdbdb;
   border-radius: 50%;
   padding: 12px;
   display: flex;
@@ -700,17 +700,17 @@ h2 {
 .step > div > span {
   display: grid;
   place-items: center;
-  border: 1px solid #dbe3cd;
+  border: 1px solid #e0e0e0;
   border-radius: 7px;
   width: 47px;
   height: 47px;
-  color: #5e7850;
-  background: #f7f8f1;
+  color: #707070;
+  background: #f7f7f7;
 }
 .step small {
   font-family: Georgia, serif;
   font-size: 28px;
-  color: #cbd4bb;
+  color: #d0d0d0;
 }
 .step h3 {
   font-size: 15px;
@@ -719,7 +719,7 @@ h2 {
 }
 .step p {
   font-size: 11px;
-  color: #8c997d;
+  color: #949494;
   max-width: 265px;
   margin: 0;
 }
@@ -736,20 +736,20 @@ h2 {
 }
 .journey-strip p {
   font-size: 11px;
-  color: #8e9c7f;
+  color: #979797;
   margin: 0;
 }
 .site-footer {
-  background: #213e2e;
-  color: #d7dfc7;
+  background: #373737;
+  color: #dcdcdc;
   padding: 42px 0 20px;
 }
 .site-footer .logo-icon {
-  background: #38573e;
-  color: #cbd5aa;
+  background: #4f4f4f;
+  color: #d0d0d0;
 }
 .site-footer .logo > span:last-child > span {
-  color: #9cae87;
+  color: #a7a7a7;
 }
 .footer-top {
   display: grid;
@@ -760,19 +760,19 @@ h2 {
 .footer-top p {
   font-size: 10px;
   line-height: 2;
-  color: #96aa85;
+  color: #a3a3a3;
   margin: 16px 0 0;
 }
 .footer-top .eyebrow {
   font-size: 8px;
-  color: #a6b792;
+  color: #b1b1b1;
   margin-top: 5px;
 }
 .footer-top button {
   display: block;
   background: none;
   padding: 5px 0;
-  color: #aab99b;
+  color: #b4b4b4;
   font-size: 10px;
 }
 .footer-top a {
@@ -781,16 +781,16 @@ h2 {
   gap: 10px;
   text-decoration: none;
   font-size: 10px;
-  color: #c8d3b8;
+  color: #cfcfcf;
 }
 .footer-bottom {
-  border-top: 1px solid #3b5239;
+  border-top: 1px solid #4b4b4b;
   display: flex;
   justify-content: space-between;
   gap: 20px;
   padding-top: 20px;
   font-size: 8px;
-  color: #7f9770;
+  color: #8f8f8f;
 }
 .footer-top .demo-note {
   font-size: 9px;
@@ -798,16 +798,16 @@ h2 {
 .empty {
   text-align: center;
   padding: 55px 25px;
-  border: 1px dashed #cdd7bd;
+  border: 1px dashed #d3d3d3;
   border-radius: 10px;
-  color: #80976d;
-  background: #fff;
+  color: #8f8f8f;
+  background: #ffffff;
 }
 .empty svg {
   margin-bottom: 15px;
 }
 .empty h3 {
-  color: #365536;
+  color: #4c4c4c;
   margin-bottom: 9px;
 }
 .empty p {
@@ -821,9 +821,9 @@ h2 {
   align-items: center;
   gap: 9px;
   font-size: 11px;
-  background: #edf3e2;
+  background: #f0f0f0;
   padding: 13px 16px;
-  border: 1px solid #dce6cb;
+  border: 1px solid #e2e2e2;
   margin-bottom: 20px;
   border-radius: 6px;
   flex-wrap: wrap;
@@ -848,15 +848,15 @@ h2 {
   align-items: center;
   gap: 28px;
   padding: 23px;
-  border: 1px solid #dfe6d5;
+  border: 1px solid #e3e3e3;
   border-radius: 9px;
-  background: #fff;
+  background: #ffffff;
   margin-bottom: 17px;
 }
 .booking-thumbnail {
   width: 200px;
   height: 130px;
-  background: #f0f3e9;
+  background: #f2f2f2;
   border-radius: 6px;
   flex-shrink: 0;
 }
@@ -873,25 +873,25 @@ h2 {
   align-items: center;
   gap: 8px;
   margin: 4px 0;
-  color: #879578;
+  color: #909090;
   font-size: 11px;
 }
 .booking-status {
   font-size: 8px;
   letter-spacing: 0.5px;
-  background: #e7efd9;
-  color: #5e7b45;
+  background: #ececec;
+  color: #717171;
   padding: 5px 9px;
   border-radius: 3px;
 }
 .booking-status.cancelled {
-  background: #f0e4dc;
-  color: #a17b61;
+  background: #e6e6e6;
+  color: #818181;
 }
 .reference {
   display: block;
   font-size: 8px;
-  color: #a2ac96;
+  color: #a8a8a8;
   margin-top: 13px;
   overflow-wrap: anywhere;
 }
@@ -907,13 +907,13 @@ h2 {
 .booking-price > small {
   display: block;
   font-size: 10px;
-  color: #9baa88;
+  color: #a4a4a4;
   margin-top: 8px;
 }
 .cancel-button {
   background: none;
-  color: #a27862;
-  border: 1px solid #eadcd1;
+  color: #7f7f7f;
+  border: 1px solid #dedede;
   padding: 8px 12px;
   border-radius: 5px;
   font-size: 10px;
@@ -925,11 +925,11 @@ dialog {
   padding: 28px;
   width: 440px;
   max-width: calc(100% - 30px);
-  color: #2e4431;
-  box-shadow: 0 25px 90px #142b2355;
+  color: #3e3e3e;
+  box-shadow: 0 25px 90px #26262655;
 }
 dialog::backdrop {
-  background: #1c30256b;
+  background: #2b2b2b6b;
   backdrop-filter: blur(4px);
 }
 dialog.wide-modal {
@@ -962,7 +962,7 @@ input,
 select {
   display: block;
   width: 100%;
-  border: 1px solid #dbe2d1;
+  border: 1px solid #dfdfdf;
   border-radius: 5px;
   padding: 11px 12px;
   margin-top: 8px;
@@ -970,14 +970,14 @@ select {
   min-width: 0;
 }
 input::placeholder {
-  color: #a1ad92;
+  color: #a8a8a8;
 }
 dialog form > .primary {
   margin-top: 5px;
 }
 .auth-switch {
   font-size: 11px;
-  color: #8fa27d;
+  color: #9b9b9b;
   text-align: center;
   margin: 22px 0 0;
 }
@@ -993,7 +993,7 @@ dialog form > .primary {
   gap: 28px;
 }
 .booking-car {
-  background: #f2f5eb;
+  background: #f4f4f4;
   border-radius: 7px;
   padding: 20px;
 }
@@ -1006,7 +1006,7 @@ dialog form > .primary {
 }
 .booking-car > p {
   font-size: 11px;
-  color: #8a9b78;
+  color: #959595;
   margin-bottom: 20px;
 }
 .booking-car .specs {
@@ -1018,8 +1018,8 @@ dialog form > .primary {
   gap: 12px;
 }
 .price-summary {
-  border-top: 1px solid #e5ebdc;
-  border-bottom: 1px solid #e5ebdc;
+  border-top: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
   padding: 14px 0;
   margin-bottom: 12px;
 }
@@ -1035,18 +1035,18 @@ dialog form > .primary {
 }
 .price-summary > small {
   font-size: 9px;
-  color: #8fa078;
+  color: #999999;
 }
 .terms {
   font-size: 9px;
-  color: #99a58a;
+  color: #a0a0a0;
   line-height: 1.7;
   margin: 12px 0 15px;
 }
 .error {
-  border: 1px solid #ecd1c6;
-  background: #fff0eb;
-  color: #a7513b;
+  border: 1px solid #d6d6d6;
+  background: #f3f3f3;
+  color: #626262;
   border-radius: 6px;
   padding: 12px;
   font-size: 12px;
@@ -1068,11 +1068,11 @@ dialog form > .primary {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #2b5238;
-  color: #fff;
+  background: #484848;
+  color: #ffffff;
   padding: 14px 23px;
   border-radius: 8px;
-  box-shadow: 0 5px 30px #0002;
+  box-shadow: 0 5px 30px #00000022;
   z-index: 30;
   font-size: 12px;
   max-width: 90vw;
@@ -1146,7 +1146,7 @@ dialog form > .primary {
     max-width: 320px;
   }
   .hero-shade {
-    background: linear-gradient(90deg, #173725f5, #203b2ca8 60%, #214b3044);
+    background: linear-gradient(90deg, #2f2f2ff5, #343434a8 60%, #40404044);
   }
   .hero-location {
     right: 0;
@@ -1279,9 +1279,9 @@ dialog form > .primary {
     left: 0;
     right: 0;
     height: auto;
-    background: #fafbf7;
+    background: #fafafa;
     padding: 15px 22px;
-    box-shadow: 0 10px 18px #20332515;
+    box-shadow: 0 10px 18px #2e2e2e15;
     justify-content: space-between;
     gap: 12px;
   }
@@ -1335,7 +1335,7 @@ dialog form > .primary {
     padding: 7px;
   }
   .hero-shade {
-    background: linear-gradient(90deg, #173725f5, #203b2c77);
+    background: linear-gradient(90deg, #2f2f2ff5, #34343477);
   }
   .hero .landscape {
     object-position: 70% 50%;
@@ -1351,7 +1351,7 @@ dialog form > .primary {
   .trip-search label:first-child {
     grid-column: 1/-1;
     border: 0;
-    border-bottom: 1px solid #e6ebdd;
+    border-bottom: 1px solid #e9e9e9;
     padding: 0 0 15px;
   }
   .trip-search label {
@@ -1547,7 +1547,7 @@ dialog form > .primary {
   }
   .booking-price {
     text-align: left;
-    border-top: 1px solid #e5ebdc;
+    border-top: 1px solid #e9e9e9;
     padding-top: 15px;
   }
   .booking-price strong {
@@ -1611,8 +1611,8 @@ dialog form > .primary {
   }
 }
 .preview-banner {
-  background: #e7edcf;
-  color: #456034;
+  background: #eaeaea;
+  color: #575757;
   padding: 9px 20px;
   display: flex;
   align-items: center;
@@ -1627,4 +1627,550 @@ dialog form > .primary {
   align-items: center;
   gap: 4px;
   font-size: 9px;
+}
+
+/* Neutral layout for the rental service. */
+:root {
+  color: #222;
+  background: #fff;
+  font-size: 15px;
+}
+em {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.35px;
+}
+.site-header {
+  background: #fff;
+  height: 80px;
+  border-bottom: 1px solid #ddd;
+}
+.logo-icon,
+.site-footer .logo-icon {
+  background: #222;
+  color: #fff;
+  border-radius: 3px;
+}
+.logo > span:last-child {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.logo > span:last-child > span {
+  letter-spacing: 3px;
+  color: #666;
+}
+.nav-wrap nav button {
+  font-size: 13px;
+  color: #555;
+}
+.nav-wrap nav button.selected {
+  color: #111;
+}
+.nav-wrap nav button.selected:after {
+  width: 100%;
+  height: 2px;
+  border-radius: 0;
+  left: 0;
+  background: #222;
+}
+.primary,
+.cream-button {
+  background: #222;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.primary:hover,
+.cream-button:hover {
+  background: #000;
+}
+.secondary,
+.book-button {
+  background: white;
+  color: #222;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+.book-button {
+  font-size: 12px;
+  padding: 11px 14px;
+}
+.book-button:hover {
+  background: #eee;
+}
+.sign-in {
+  font-size: 12px;
+  border-color: #aaa;
+}
+.eyebrow {
+  color: #666;
+  font-size: 11px;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+.hero {
+  height: auto;
+  background: #f2f2f2;
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-height: 335px;
+  gap: 35px;
+  padding: 35px 0;
+}
+.hero-copy {
+  padding: 0;
+  color: #222;
+}
+.hero-kicker {
+  margin-bottom: 15px;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: #555;
+}
+.hero h1 {
+  font-size: 43px;
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -1px;
+  margin: 0 0 18px;
+}
+.hero p {
+  color: #555;
+  font-size: 14px;
+  max-width: 470px;
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+.hero-vehicle {
+  position: static;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  opacity: 1;
+}
+.hero-car {
+  width: 100%;
+  height: 260px;
+  display: block;
+  object-fit: contain;
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+}
+.search-wrap {
+  margin-top: 0;
+  padding-top: 24px;
+}
+.trip-search {
+  padding: 22px;
+  border-radius: 5px;
+  box-shadow: none;
+  border-color: #ccc;
+  gap: 24px;
+}
+.trip-search label > span {
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  color: #555;
+}
+.trip-search input,
+.trip-search select {
+  font-size: 14px;
+}
+.trip-search .primary {
+  padding: 16px 23px;
+}
+.benefits {
+  padding: 25px 0;
+  gap: 30px;
+}
+.benefits strong {
+  font-size: 12px;
+  color: #333;
+}
+.benefits small {
+  font-size: 11px;
+  color: #666;
+}
+.benefits svg {
+  color: #555;
+}
+.fleet {
+  padding-top: 36px;
+}
+.section-heading h2 {
+  font-size: 27px;
+  font-weight: 600;
+}
+.fleet-count {
+  font-size: 12px;
+  color: #666;
+  padding-top: 0;
+}
+.tabs button {
+  font-size: 12px;
+  letter-spacing: 0;
+  color: #444;
+  border-color: #ccc;
+}
+.tabs button.active {
+  background: #222;
+  border-color: #222;
+  color: #fff;
+}
+.fleet-tools select,
+.search-box input {
+  font-size: 12px;
+  color: #444;
+}
+.search-box input {
+  width: 140px;
+}
+.car-card {
+  border-color: #d4d4d4;
+  border-radius: 5px;
+  box-shadow: none;
+  transition: border-color 0.15s;
+}
+.car-card:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: #888;
+}
+.car-visual,
+.visual-1,
+.visual-2 {
+  height: 220px;
+  padding: 35px 14px 10px;
+  background: #f5f5f5;
+}
+.car-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+}
+.car-visual .car-art {
+  padding-top: 0;
+}
+.vehicle-tag {
+  font-size: 10px;
+  letter-spacing: 0;
+  color: #555;
+  top: 13px;
+  left: 16px;
+}
+.car-title h3 {
+  font-size: 19px;
+  color: #222;
+}
+.car-title > span {
+  font-size: 10px;
+  background: #eee;
+  color: #555;
+}
+.specs {
+  font-size: 11px;
+  color: #555;
+  gap: 12px;
+}
+.car-bottom {
+  padding-top: 17px;
+  border-color: #ddd;
+}
+.car-bottom small {
+  font-size: 9px;
+  letter-spacing: 0;
+  color: #666;
+}
+.car-bottom strong {
+  font-size: 24px;
+  color: #222;
+}
+.car-bottom strong > span {
+  font-size: 10px;
+}
+.per-day {
+  font-size: 11px;
+  color: #666;
+}
+.fleet-note {
+  font-size: 11px;
+  color: #666;
+}
+.availability.yes,
+.booking-status {
+  background: #e8e8e8;
+  color: #222;
+}
+.availability.no,
+.booking-status.cancelled {
+  background: #ddd;
+  color: #555;
+}
+.availability,
+.booking-status {
+  font-size: 10px;
+}
+.how-section {
+  background: #f5f5f5;
+  border-color: #ddd;
+  padding: 36px 0;
+}
+.how-mark {
+  display: none;
+}
+.step > div > span {
+  background: #fff;
+  border-color: #ccc;
+  color: #333;
+  border-radius: 4px;
+}
+.step small {
+  font-family: inherit;
+  font-size: 20px;
+  color: #888;
+}
+.step h3 {
+  font-size: 16px;
+  color: #222;
+}
+.step p {
+  font-size: 13px;
+  color: #555;
+  max-width: none;
+}
+.site-footer {
+  background: #eee;
+  color: #222;
+  padding-top: 32px;
+}
+.site-footer .logo > span:last-child > span {
+  color: #555;
+}
+.footer-top p,
+.footer-top button,
+.footer-top a {
+  font-size: 12px;
+  color: #555;
+}
+.footer-top .eyebrow {
+  font-size: 11px;
+  color: #333;
+  letter-spacing: 0;
+}
+.footer-top .demo-note {
+  font-size: 11px;
+  color: #555;
+}
+.footer-bottom {
+  border-color: #ccc;
+  color: #555;
+  font-size: 10px;
+}
+.footer-bottom a {
+  color: #555;
+}
+.booking-car,
+.booking-thumbnail {
+  background: #f3f3f3;
+}
+.booking-car > p,
+.muted {
+  color: #555;
+}
+.terms,
+.price-summary > small {
+  font-size: 11px;
+  color: #666;
+}
+.booking-info p,
+.booking-price > span {
+  font-size: 12px;
+  color: #555;
+}
+.reference {
+  font-size: 10px;
+  color: #666;
+}
+.booking-car .car-art {
+  height: 170px;
+}
+.preview-banner {
+  background: #eee;
+  color: #444;
+  border-bottom: 1px solid #ddd;
+  font-size: 11px;
+}
+.preview-banner a {
+  font-size: 10px;
+}
+dialog {
+  border-radius: 6px;
+  box-shadow: 0 12px 50px #0003;
+}
+dialog::backdrop {
+  background: #0006;
+  backdrop-filter: none;
+}
+.toast {
+  background: #222;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: none;
+}
+@media (max-width: 960px) {
+  .hero-inner {
+    min-height: 300px;
+    gap: 15px;
+  }
+  .hero h1 {
+    font-size: 36px;
+  }
+  .hero-car {
+    height: 220px;
+  }
+  .hero-vehicle {
+    width: 100%;
+    opacity: 1;
+  }
+  .trip-search {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .trip-search .primary {
+    grid-column: 1/-1;
+  }
+  .car-visual {
+    height: 225px;
+  }
+  .specs {
+    font-size: 11px;
+  }
+  .book-button {
+    font-size: 11px;
+  }
+}
+@media (max-width: 650px) {
+  .site-header {
+    height: 72px;
+  }
+  .nav-wrap nav {
+    top: 72px;
+    background: white;
+    box-shadow: 0 5px 12px #0001;
+  }
+  .nav-wrap nav button {
+    font-size: 11px;
+  }
+  .logo > span:last-child {
+    font-size: 11px;
+  }
+  .logo > span:last-child > span {
+    font-size: 8px;
+  }
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    padding: 28px 0 18px;
+    min-height: 0;
+  }
+  .hero-copy {
+    padding: 0;
+  }
+  .hero h1 {
+    font-size: 31px;
+    margin-bottom: 12px;
+  }
+  .hero-kicker {
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+  .hero p {
+    font-size: 13px;
+    max-width: none;
+    margin-bottom: 18px;
+  }
+  .hero-vehicle {
+    width: 100%;
+    position: static;
+  }
+  .hero-car {
+    height: 170px;
+  }
+  .search-wrap {
+    margin-top: 0;
+    padding-top: 18px;
+  }
+  .trip-search {
+    grid-template-columns: 1fr 1fr;
+    padding: 18px;
+    gap: 18px 10px;
+  }
+  .trip-search label:first-child {
+    grid-column: 1/-1;
+  }
+  .trip-search label > span {
+    font-size: 9px;
+  }
+  .trip-search input,
+  .trip-search select {
+    font-size: 12px;
+  }
+  .benefits {
+    padding: 23px 10px;
+    gap: 20px;
+  }
+  .fleet {
+    padding-top: 28px;
+  }
+  .section-heading h2 {
+    font-size: 25px;
+  }
+  .tabs button {
+    font-size: 11px;
+    padding: 9px 10px;
+  }
+  .car-visual {
+    height: 220px;
+  }
+  .car-title h3 {
+    font-size: 20px;
+  }
+  .specs {
+    font-size: 11px;
+  }
+  .car-bottom strong {
+    font-size: 25px;
+  }
+  .book-button {
+    font-size: 12px;
+  }
+  .footer-bottom {
+    font-size: 9px;
+  }
+  .preview-banner {
+    padding: 8px 16px;
+    gap: 4px 10px;
+    font-size: 10px;
+  }
+  .booking-car .car-art {
+    height: 150px;
+  }
+  .terms {
+    font-size: 10px;
+  }
 }

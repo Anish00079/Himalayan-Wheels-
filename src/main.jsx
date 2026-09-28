@@ -68,175 +68,15 @@ function Logo() {
     </span>
   );
 }
-function CarArt({ color = "#bdc5bd", type = "SUV", id = "car", hero = false }) {
-  const suv = type === "SUV",
-    compact = type === "Hatchback";
+function CarPhoto({ carId, name, hero = false }) {
   return (
-    <svg
-      viewBox="0 0 600 300"
-      role="img"
-      aria-label={`${type} vehicle illustration`}
+    <img
       className={hero ? "hero-car" : "car-art"}
-    >
-      <defs>
-        <linearGradient id={id + "paint"} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={color} />
-          <stop offset=".65" stopColor={color} />
-          <stop offset="1" stopColor="#27332f" />
-        </linearGradient>
-        <linearGradient id={id + "glass"} x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor="#a5b8b5" />
-          <stop offset=".4" stopColor="#52645f" />
-          <stop offset="1" stopColor="#263c36" />
-        </linearGradient>
-      </defs>
-      <ellipse
-        cx="301"
-        cy="251"
-        rx="239"
-        ry="17"
-        fill="#10261d"
-        opacity=".13"
-      />
-      <path
-        d={
-          suv
-            ? "M58 189 L90 170 L148 101 Q160 90 188 87 L345 87 Q370 90 414 146 L495 158 Q526 164 538 190 L542 223 Q540 237 510 239 L90 239 Q60 238 55 219Z"
-            : `M58 193 L96 172 L166 119 Q183 106 210 104 L329 104 Q355 108 405 154 L${compact ? 460 : 490} 169 Q531 178 540 201 L536 225 Q534 239 506 239 L89 239 Q63 237 55 219Z`
-        }
-        fill={`url(#${id}paint)`}
-        stroke="#344039"
-        strokeWidth="2"
-      />
-      <path
-        d={
-          suv
-            ? "M115 165 L162 108 Q168 102 189 101 L239 101 L239 164Z"
-            : "M121 168 L174 126 Q187 115 209 115 L240 115 L240 167Z"
-        }
-        fill={`url(#${id}glass)`}
-        stroke="#2c3d35"
-        strokeWidth="5"
-      />
-      <path
-        d={
-          suv
-            ? "M252 101 L339 101 Q361 102 397 151 L402 162 L252 164Z"
-            : "M252 115 L324 115 Q345 116 389 157 L398 166 L252 167Z"
-        }
-        fill={`url(#${id}glass)`}
-        stroke="#2c3d35"
-        strokeWidth="5"
-      />
-      <path
-        d="M291 107 L330 163 M172 114 L144 158"
-        stroke="#dce9db"
-        opacity=".32"
-        strokeWidth="8"
-      />
-      <path
-        d="M71 185 L411 177 L507 184"
-        fill="none"
-        stroke="#fff"
-        opacity=".3"
-        strokeWidth="3"
-      />
-      <path
-        d="M246 173 L244 226 M410 173 L427 227"
-        fill="none"
-        stroke="#1d3028"
-        opacity=".42"
-        strokeWidth="2"
-      />
-      <rect x="266" y="180" width="29" height="5" rx="2" fill="#293a31" />
-      <rect x="126" y="180" width="26" height="5" rx="2" fill="#293a31" />
-      <path
-        d="M400 163 L412 157 Q428 156 429 168 L424 176 L405 174Z"
-        fill={color}
-        stroke="#35473a"
-        strokeWidth="2"
-      />
-      <path d="M501 181 L529 191 L534 205 L501 201Z" fill="#eff2d9" />
-      <path d="M61 190 L79 184 L78 205 L57 209Z" fill="#b64b33" />
-      <path d="M503 210 L538 215 L534 226 L503 227Z" fill="#22372e" />
-      <path d="M204 231 L373 231" stroke="#21372b" strokeWidth="12" />
-      <g fill="#1b2621" stroke="#34443b" strokeWidth="3">
-        <circle cx="153" cy="230" r="42" />
-        <circle cx="435" cy="230" r="42" />
-      </g>
-      {[153, 435].map((x) => (
-        <g key={x}>
-          <circle cx={x} cy="230" r="27" fill="#afb7aa" />
-          <circle cx={x} cy="230" r="21" fill="#394a40" />
-          {[0, 60, 120].map((a) => (
-            <path
-              key={a}
-              d={`M${x - 23} 230 H${x + 23}`}
-              stroke="#bac3b5"
-              strokeWidth="7"
-              transform={`rotate(${a} ${x} 230)`}
-            />
-          ))}
-          <circle cx={x} cy="230" r="7" fill="#64756a" />
-        </g>
-      ))}
-      {suv && <path d="M162 82 L343 82" stroke="#3b4d42" strokeWidth="5" />}
-    </svg>
-  );
-}
-function Landscape() {
-  return (
-    <svg
-      className="landscape"
-      viewBox="0 0 1400 640"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id="sky" x2="0" y2="1">
-          <stop stopColor="#bdc9b9" />
-          <stop offset="1" stopColor="#e0e1c9" />
-        </linearGradient>
-        <linearGradient id="hill" x2="0" y2="1">
-          <stop stopColor="#6e8571" />
-          <stop offset="1" stopColor="#213e31" />
-        </linearGradient>
-      </defs>
-      <rect width="1400" height="640" fill="url(#sky)" />
-      <circle cx="1020" cy="126" r="66" fill="#f8efcd" opacity=".7" />
-      <path
-        d="M0 365 L260 220 L348 260 L590 45 L760 248 L910 89 L1090 274 L1248 177 L1400 330 V640 H0Z"
-        fill="#8d9d8c"
-      />
-      <path
-        d="M417 204 L590 45 L699 181 L630 151 L598 184 L567 136 L501 180 L481 164Z M826 178 L910 89 L1009 205 L942 171 L924 190 L888 151Z"
-        fill="#e8e9da"
-      />
-      <path
-        d="M0 443 Q257 260 497 349 T1004 344 T1400 314 V640 H0Z"
-        fill="#728672"
-      />
-      <path
-        d="M0 469 Q269 344 639 450 Q1020 348 1400 458 V640 H0Z"
-        fill="url(#hill)"
-      />
-      <path
-        d="M1130 407 Q932 473 1282 524 Q1380 538 1130 640 H615 Q1250 540 1024 518 Q795 488 1068 407Z"
-        fill="#afb3a0"
-      />
-      <path
-        d="M1105 411 Q872 479 1180 523 Q1287 556 893 640"
-        fill="none"
-        stroke="#f2e7b9"
-        strokeWidth="3"
-        strokeDasharray="17 24"
-      />
-      <path d="M0 551 Q369 424 655 610 L570 640 H0Z" fill="#203e30" />
-      <g fill="#254532">
-        <path d="M1290 218 L1249 347 H1276 L1227 412 H1350 L1313 347 H1338Z" />
-        <path d="M1380 241 L1350 344 H1366 L1327 420 H1430 L1399 344 H1410Z" />
-      </g>
-    </svg>
+      src={`${import.meta.env.BASE_URL}cars/${carId}.webp`}
+      alt={name}
+      loading={hero ? "eager" : "lazy"}
+      decoding="async"
+    />
   );
 }
 function Modal({ title, onClose, children, wide = false }) {
@@ -305,7 +145,7 @@ function Auth({ onClose, onLogin }) {
     );
   return (
     <Modal
-      title={register ? "Your next journey starts here" : "Welcome back"}
+      title={register ? "Create an account" : "Welcome back"}
       onClose={onClose}
     >
       <p className="muted">
@@ -399,14 +239,14 @@ function Booking({ car, trip, user, onClose, onSignIn, onBooked }) {
   const valid =
     Number.isFinite(days) && days > 0 && days <= 30 && details.start >= today();
   return (
-    <Modal title="Make this journey yours" onClose={onClose} wide>
+    <Modal title="Reserve a vehicle" onClose={onClose} wide>
       <div className="booking-grid">
         <div className="booking-car">
           <span className="eyebrow">
             {car.category} • {car.transmission}
           </span>
           <h3>{car.name}</h3>
-          <CarArt color={car.color} type={car.category} id="booking" />
+          <CarPhoto carId={car.id} name={car.name} />
           <p>{car.description}</p>
           <div className="specs">
             <span>
@@ -716,41 +556,22 @@ function App() {
       {page === "home" ? (
         <>
           <section className="hero" id="home">
-            <Landscape />
-            <div className="hero-shade" />
             <div className="hero-inner">
               <div className="hero-copy">
-                <span className="hero-kicker">
-                  <span />
-                  THE ROAD IS YOURS
-                </span>
-                <h1>
-                  Great journeys.
-                  <br />
-                  Better <em>wheels.</em>
-                </h1>
+                <span className="hero-kicker">Himalayan Wheels</span>
+                <h1>Car rental in Nepal</h1>
                 <p>
-                  From the streets of Kathmandu to the quiet of the hills.
-                  <br className="desktop-break" /> Find your ride. Take the
-                  scenic route.
+                  Compare cars, check availability, and book a vehicle for your
+                  trip. Pickup options in Kathmandu, Pokhara, and Chitwan.
                 </p>
                 <button className="cream-button" onClick={() => nav("fleet")}>
                   Explore our fleet
-                  <ArrowUpRight size={18} />
+                  <ArrowRight size={18} />
                 </button>
-                <div className="hero-footnote">
-                  <MapPin size={14} /> Made for your Nepal adventures
-                </div>
               </div>
               <div className="hero-vehicle">
-                <span className="adventure-label">
-                  <Route size={17} /> A little further. A little freer.
-                </span>
-                <CarArt color="#d1d3bd" type="SUV" id="hero" hero />
+                <CarPhoto carId="creta" name="Hyundai Creta" hero />
               </div>
-              <span className="hero-location">
-                27.7172° N &nbsp; 85.3240° E<span>KATHMANDU, NEPAL</span>
-              </span>
             </div>
           </section>
           <div className="search-wrap">
@@ -815,14 +636,14 @@ function App() {
             <div>
               <KeyRound />
               <span>
-                <strong>A ride for every plan</strong>
+                <strong>Vehicle options</strong>
                 <small>City cars, SUVs & electric options</small>
               </span>
             </div>
             <div>
               <CalendarDays />
               <span>
-                <strong>Plans can change</strong>
+                <strong>Cancellation policy</strong>
                 <small>Cancel before your pickup day</small>
               </span>
             </div>
@@ -830,13 +651,11 @@ function App() {
           <section className="fleet content-width" id="fleet">
             <div className="section-heading">
               <div>
-                <span className="eyebrow">FIND YOUR TRAVEL COMPANION</span>
-                <h2>
-                  The right ride. <em>For your kind of road.</em>
-                </h2>
+                <span className="eyebrow">Browse vehicles</span>
+                <h2>Available cars</h2>
               </div>
               <span className="fleet-count">
-                {cars.length} cars. Endless possibilities.
+                {cars.length} vehicles
                 <ArrowUpRight size={18} />
               </span>
             </div>
@@ -892,27 +711,14 @@ function App() {
             )}
             {loading ? (
               <div className="empty" role="status">
-                Finding your next ride…
+                Loading vehicles…
               </div>
             ) : visible.length ? (
               <div className="car-grid">
                 {visible.map((car, i) => (
                   <article className="car-card" key={car.id}>
                     <div className={"car-visual visual-" + (i % 3)}>
-                      <span className="vehicle-tag">
-                        {car.category === "Electric" ? (
-                          <>
-                            <Leaf size={12} />
-                            ALL ELECTRIC
-                          </>
-                        ) : car.category === "SUV" ? (
-                          "ROOM TO EXPLORE"
-                        ) : car.category === "Sedan" ? (
-                          "COMFORT IN MOTION"
-                        ) : (
-                          "CITY COMPANION"
-                        )}
-                      </span>
+                      <span className="vehicle-tag">{car.category}</span>
                       {car.available !== null && (
                         <span
                           className={
@@ -922,14 +728,7 @@ function App() {
                           {car.available ? "Available" : "Reserved"}
                         </span>
                       )}
-                      <CarArt
-                        color={car.color}
-                        type={car.category}
-                        id={car.id}
-                      />
-                      <span className="illustration-label">
-                        MODEL ILLUSTRATION
-                      </span>
+                      <CarPhoto carId={car.id} name={car.name} />
                     </div>
                     <div className="car-body">
                       <div className="car-title">
@@ -996,12 +795,8 @@ function App() {
             <div className="content-width">
               <div className="section-heading">
                 <div>
-                  <span className="eyebrow">
-                    LESS PLANNING. MORE EXPLORING.
-                  </span>
-                  <h2>
-                    A few clicks from <em>your next escape.</em>
-                  </h2>
+                  <span className="eyebrow">Booking information</span>
+                  <h2>How to book</h2>
                 </div>
                 <span className="how-mark">
                   <Mountain size={38} />
@@ -1012,19 +807,19 @@ function App() {
                   [
                     Search,
                     "01",
-                    "Find your fit",
+                    "Choose a car",
                     "Pick your dates, choose your city, and explore the cars available for your trip.",
                   ],
                   [
                     CalendarDays,
                     "02",
-                    "Make it yours",
+                    "Confirm your booking",
                     "Sign in, review the rental total, and confirm your reservation in one place.",
                   ],
                   [
                     KeyRound,
                     "03",
-                    "Hit the road",
+                    "Collect your vehicle",
                     "Keep your booking reference handy. Payment and vehicle handover happen at pickup.",
                   ],
                 ].map(([Icon, n, title, body]) => (
@@ -1042,30 +837,16 @@ function App() {
               </div>
             </div>
           </section>
-          <section className="journey-strip content-width">
-            <div>
-              <span className="eyebrow">TAKE THE LONG WAY HOME</span>
-              <h2>
-                There’s a whole Nepal <em>waiting for you.</em>
-              </h2>
-              <p>
-                A city break, a lakeside weekend, or a change of scenery. Start
-                with the right wheels.
-              </p>
-            </div>
-            <button className="primary" onClick={() => nav("fleet")}>
-              Find your ride
-              <ArrowUpRight size={18} />
-            </button>
-          </section>
         </>
       ) : (
         <main className="bookings-page content-width">
-          <span className="eyebrow">YOUR JOURNEYS, ALL TOGETHER</span>
+          <span className="eyebrow">Your account</span>
           <div className="section-heading">
             <div>
               <h1>My bookings</h1>
-              <p className="muted">Your next adventure starts with a plan.</p>
+              <p className="muted">
+                View your reservations and manage cancellations.
+              </p>
             </div>
             <button className="primary" onClick={() => nav("fleet")}>
               Book another ride
@@ -1076,7 +857,7 @@ function App() {
             bookings.map((b) => (
               <article className="booking-card" key={b.id}>
                 <div className="booking-thumbnail">
-                  <CarArt color={b.color} type={b.category} id={"b" + b.id} />
+                  <CarPhoto carId={b.car_id} name={b.name} />
                 </div>
                 <div className="booking-info">
                   <span
@@ -1119,8 +900,10 @@ function App() {
           ) : (
             <div className="empty">
               <Route size={37} />
-              <h3>Your next adventure is still unwritten</h3>
-              <p>Find a car you love and your reservations will appear here.</p>
+              <h3>No bookings yet</h3>
+              <p>
+                Your reservations will appear here after you book a vehicle.
+              </p>
               <button className="primary" onClick={() => nav("fleet")}>
                 Explore our fleet
                 <ArrowUpRight size={17} />
@@ -1135,9 +918,9 @@ function App() {
             <div>
               <Logo />
               <p>
-                Good wheels. Great memories.
+                Car rental in Nepal.
                 <br />
-                Your journey through Nepal starts here.
+                Kathmandu, Pokhara and Chitwan.
               </p>
             </div>
             <div>
@@ -1175,7 +958,9 @@ function App() {
           </div>
           <div className="footer-bottom">
             <span>© {new Date().getFullYear()} Himalayan Wheels</span>
-            <span>Made for the journey, not just the destination.</span>
+            <a href="https://meromoto.com/" target="_blank" rel="noreferrer">
+              Vehicle photos: Meromoto
+            </a>
           </div>
         </div>
       </footer>

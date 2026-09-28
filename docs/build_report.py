@@ -90,7 +90,7 @@ heading(p,'Design conclusion')
 para(p,'The review supports a three-part design: a component-based client, an authoritative API, and a relational store. The project prioritizes transparent booking rules and a small setup footprint. The resulting design is deliberately narrower than a commercial rental platform, which would also need operational inventory, payments, document checks, and customer support workflows.')
 
 p=page('Scope and Limitations')
-para(p,'The implemented scope covers public discovery and private reservation management. Six seeded records represent six physical demo vehicles. Model specifications and daily rates are illustrative data, not verified manufacturer specifications or market quotations. Original SVG illustrations are included in the application so that visual assets work without an external image service.')
+para(p,'The implemented scope covers public discovery and private reservation management. Six seeded records represent six physical demo vehicles. Model specifications and daily rates are illustrative data, not verified manufacturer specifications or market quotations. Vehicle photos from Meromoto are included as local assets, with source details in Image-Credits.md. The website uses a grey, black, and white interface.')
 para(p,'The customer selects one of three pickup cities and returns the vehicle to the same city. The application does not model where a vehicle is physically located, repositioning between cities, pickup times, driver services, maintenance blocks, or turnaround buffers. A return date is exclusive, so another rental can start on that date. These assumptions simplify the demonstration and must be revisited before commercial use.')
 para(p,'The optional GitHub Pages preview uses local browser storage and a demo identity; it does not provide the authentication or shared-database guarantees of the full-stack application. No money, driving license, identity document, or insurance information is collected. Payment is described as due at pickup, but no actual rental service is issued. There is no administrator interface, email verification, password reset, notification delivery, or multi-user staff workflow. SQLite is used on a single application server; horizontal scaling is outside the current scope.')
 heading(p,'Requirement Analysis')
@@ -120,7 +120,7 @@ table(p,'Table 2  Technology stack',['Layer','Technology','Role'],[
 ['API framework','Express 5.2.1','Routes, middleware, JSON responses and static serving'],
 ['Database','SQLite through node:sqlite','Durable users, sessions, vehicle and booking records'],
 ['Security middleware','Helmet 8.3.0; express-rate-limit 8.7.0','Response headers and authentication attempt limits'],
-['Visual interface','CSS, SVG; Lucide React 0.468.0','Responsive styling, original illustrations and icons'],
+['Visual interface','CSS, SVG; Lucide React 0.468.0','Responsive styling, vehicle photos and icons'],
 ['Verification','Node test runner; Playwright browser checks','API assertions and end-to-end interaction checks'],
 ['Source management','Git and GitHub Actions','Version history and automated test/build workflow']],[91,163,CONTENT-254])
 para(p,'Exact package resolutions are recorded in package-lock.json. Vite provides a development server and a production build pipeline [9]. During development its proxy forwards API requests to Express; in the production build Express serves the generated frontend from the same origin as the API.')
@@ -131,7 +131,7 @@ bullets(p,
  'Define the journey: browse, select dates, sign in, review the price, confirm, view, and cancel.',
  'Model the data: separate users, sessions, cars, and bookings; define ownership and foreign keys.',
  'Implement server rules: validate dates, derive prices, protect endpoints, and control overlap in a transaction.',
- 'Build the interface: responsive navigation, illustrated fleet cards, dialogs, availability indicators, and booking history.',
+ 'Build the interface: responsive navigation, vehicle photo cards, dialogs, availability indicators, and booking history.',
  'Verify behavior: test successful and rejected requests, restart persistence, race attempts, and browser interaction.',
  'Package the result: retain source, dependency lockfile, setup instructions, screenshots, report, and CI workflow.')
 p.append(('architecture',))
@@ -173,13 +173,13 @@ para(p,'HTTP responses distinguish malformed input (400), missing authentication
 p=page('Project Structure and File Organization')
 code(p,"Himalayan-Wheels/\n  src/\n    main.jsx                 React components and API client\n    styles.css               Responsive site design\n    preview-api.js           Browser-only Pages adapter\n  shared/fleet.js            Shared demonstration fleet\n  server/\n    app.js                   Routes and booking rules\n    db.js                    Schema and demo fleet\n    index.js                 Startup and graceful shutdown\n  tests/\n    api.test.js              API integration scenario\n  docs/\n    Himalayan-Wheels-Project-Report.pdf\n    Project-Report.md        Editable report text\n    build_report.py          Report generation source\n    repository-qr.svg        Scannable repository link\n    screenshots/             Browser screenshots\n  .github/workflows/ci.yml    Automated verification\n  Dockerfile                 Container starting configuration\n  .dockerignore              Excludes local build/data files\n  .gitignore                 Excludes dependencies and data\n  index.html                 Frontend entry point\n  vite.config.js             Build configuration and proxy\n  package.json               Scripts and dependency ranges\n  package-lock.json          Exact dependency resolutions\n  README.md                  Setup, usage and API guide")
 heading(p,'Organization decisions')
-para(p,'The client and server are separated by directory and communicate only through the API. The frontend uses reusable components for the logo, original vehicle illustrations, landscape, modal, authentication, and booking form. The App component coordinates navigation and shared state. The backend database module owns schema initialization and fleet seeding, while app.js defines request handling and exports an application factory for tests.')
+para(p,'The client and server are separated by directory and communicate only through the API. The frontend uses reusable components for the logo, vehicle photos, modal, authentication, and booking form. The App component coordinates navigation and shared state. The backend database module owns schema initialization and fleet seeding, while app.js defines request handling and exports an application factory for tests.')
 para(p,'Generated dependencies, frontend build output, local logs, and database files are excluded from Git. The source repository retains the dependency lockfile so another developer can reproduce the installation with npm ci. Tests create a disposable database in the operating system temporary directory, avoiding changes to the user\'s demonstration data.')
 para(p,'A GitHub Actions workflow installs dependencies, runs the API tests, and builds the frontend on Node 24. The Dockerfile is supplied for a later hosting step. Its build and runtime behavior have not been executed as part of this native Windows verification, so it should be smoke-tested before deployment.')
 
 p=page('System Screenshots')
 para(p,'The following figures were captured from the running application in a desktop browser. The visible fleet, prices, and accounts are demonstration data. Screenshots illustrate the actual implemented interface rather than a separate design mockup.')
-picture(p,'01-home.png','Figure 4  Homepage with illustrated landscape, search fields and navigation',400)
+picture(p,'01-home.png','Figure 4  Homepage with rental search fields and navigation',400)
 picture(p,'02-fleet.png','Figure 5  Vehicle cards with category controls, model search and pricing',400)
 
 p=page('System Screenshots of Registration and Reservation')
@@ -241,7 +241,7 @@ references=[
 for i,(author,title,url) in enumerate(references,1):
     para(p,f'[{i}] {author}. <i>{title}</i>. {"Project repository" if i==10 else "Documentation accessed 28 September 2026"}.<br/><a href="{url}" color="#000000">{url}</a>')
 heading(p,'Source use')
-para(p,'The cited documentation supports the technical design discussion. Package versions in the technology table come from the delivered dependency lockfile. Implementation descriptions and validation results refer to the delivered source and executed tests. The fleet data and rates are project examples and are not attributed to an external rental operator. The original interface illustrations are included as SVG code.')
+para(p,'The cited documentation supports the technical design discussion. Package versions in the technology table come from the delivered dependency lockfile. Implementation descriptions and validation results refer to the delivered source and executed tests. The fleet data and rates are project examples and are not attributed to an external rental operator. Vehicle photographs are sourced from Meromoto (https://meromoto.com/), with individual source links in Image-Credits.md.')
 
 p=page('Appendix')
 heading(p,'Installation and first run')
@@ -289,13 +289,6 @@ def diagram(labels,edges,height):
     return d
 
 shots=ROOT/'screenshots'
-for source,target,box in [
- ('03-registration.png','03-registration-crop.png',(480,180,960,865)),
- ('04-reservation.png','04-reservation-crop.png',(315,265,1125,775)),
- ('05-bookings.png','05-bookings-crop.png',(130,105,1310,585)),
- ('01-home.png','cover-landscape.png',(0,88,1440,618))]:
-    PILImage.open(shots/source).crop(box).save(shots/target)
-
 def report_image(filename,width):
     output_dir=ROOT/'report-images'
     output_dir.mkdir(exist_ok=True)
@@ -350,7 +343,7 @@ for page_no,item in enumerate(pages,1):
         elif kind=='mobile':
             w=157;iw,ih=PILImage.open(shots/'07-mobile.png').size
             img=report_image('07-mobile.png',w)
-            text=[P('Figure 9  Mobile homepage','SubX'),P('At a 390-pixel viewport, navigation moves into a menu, the hero illustration is repositioned, and the search form becomes a compact stacked layout. Fleet cards become a single column.'),P('Browser checks found no horizontal page overflow at this width. The same booking and account features remain accessible. This visual check does not replace a complete accessibility audit.'),P('The booking history above shows the saved reference, rental dates, pickup city and total. Cancellation is offered only before the pickup date; cancelled reservations remain in history.')]
+            text=[P('Figure 9  Mobile homepage','SubX'),P('At a 390-pixel viewport, navigation moves into a menu, the vehicle photo is resized, and the search form becomes a compact stacked layout. Fleet cards become a single column.'),P('Browser checks found no horizontal page overflow at this width. The same booking and account features remain accessible. This visual check does not replace a complete accessibility audit.'),P('The booking history above shows the saved reference, rental dates, pickup city and total. Cancellation is offered only before the pickup date; cancelled reservations remain in history.')]
             t=Table([[img,text]],colWidths=[w+20,CONTENT-w-20]);t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),10)]));story.append(t)
             markdown += ['![Figure 9 Mobile homepage](report-images/07-mobile.png)','',*[plain(x.text) for x in text],'']
 

@@ -167,7 +167,7 @@ The review supports a three-part design: a component-based client, an authoritat
 <!-- Page 8 -->
 # Scope and Limitations
 
-The implemented scope covers public discovery and private reservation management. Six seeded records represent six physical demo vehicles. Model specifications and daily rates are illustrative data, not verified manufacturer specifications or market quotations. Original SVG illustrations are included in the application so that visual assets work without an external image service.
+The implemented scope covers public discovery and private reservation management. Six seeded records represent six physical demo vehicles. Model specifications and daily rates are illustrative data, not verified manufacturer specifications or market quotations. Vehicle photos from Meromoto are included as local assets, with source details in Image-Credits.md. The website uses a grey, black, and white interface.
 
 The customer selects one of three pickup cities and returns the vehicle to the same city. The application does not model where a vehicle is physically located, repositioning between cities, pickup times, driver services, maintenance blocks, or turnaround buffers. A return date is exclusive, so another rental can start on that date. These assumptions simplify the demonstration and must be revisited before commercial use.
 
@@ -211,7 +211,7 @@ Table 2  Technology stack
 | API framework | Express 5.2.1 | Routes, middleware, JSON responses and static serving |
 | Database | SQLite through node:sqlite | Durable users, sessions, vehicle and booking records |
 | Security middleware | Helmet 8.3.0; express-rate-limit 8.7.0 | Response headers and authentication attempt limits |
-| Visual interface | CSS, SVG; Lucide React 0.468.0 | Responsive styling, original illustrations and icons |
+| Visual interface | CSS, SVG; Lucide React 0.468.0 | Responsive styling, vehicle photos and icons |
 | Verification | Node test runner; Playwright browser checks | API assertions and end-to-end interaction checks |
 | Source management | Git and GitHub Actions | Version history and automated test/build workflow |
 
@@ -225,7 +225,7 @@ Development followed an iterative implementation and verification process. Each 
 - Define the journey: browse, select dates, sign in, review the price, confirm, view, and cancel.
 - Model the data: separate users, sessions, cars, and bookings; define ownership and foreign keys.
 - Implement server rules: validate dates, derive prices, protect endpoints, and control overlap in a transaction.
-- Build the interface: responsive navigation, illustrated fleet cards, dialogs, availability indicators, and booking history.
+- Build the interface: responsive navigation, vehicle photo cards, dialogs, availability indicators, and booking history.
 - Verify behavior: test successful and rejected requests, restart persistence, race attempts, and browser interaction.
 - Package the result: retain source, dependency lockfile, setup instructions, screenshots, report, and CI workflow.
 
@@ -340,7 +340,7 @@ Himalayan-Wheels/
 
 ## Organization decisions
 
-The client and server are separated by directory and communicate only through the API. The frontend uses reusable components for the logo, original vehicle illustrations, landscape, modal, authentication, and booking form. The App component coordinates navigation and shared state. The backend database module owns schema initialization and fleet seeding, while app.js defines request handling and exports an application factory for tests.
+The client and server are separated by directory and communicate only through the API. The frontend uses reusable components for the logo, vehicle photos, modal, authentication, and booking form. The App component coordinates navigation and shared state. The backend database module owns schema initialization and fleet seeding, while app.js defines request handling and exports an application factory for tests.
 
 Generated dependencies, frontend build output, local logs, and database files are excluded from Git. The source repository retains the dependency lockfile so another developer can reproduce the installation with npm ci. Tests create a disposable database in the operating system temporary directory, avoiding changes to the user's demonstration data.
 
@@ -351,7 +351,7 @@ A GitHub Actions workflow installs dependencies, runs the API tests, and builds 
 
 The following figures were captured from the running application in a desktop browser. The visible fleet, prices, and accounts are demonstration data. Screenshots illustrate the actual implemented interface rather than a separate design mockup.
 
-![Figure 4  Homepage with illustrated landscape, search fields and navigation](report-images/01-home.png)
+![Figure 4  Homepage with rental search fields and navigation](report-images/01-home.png)
 
 ![Figure 5  Vehicle cards with category controls, model search and pricing](report-images/02-fleet.png)
 
@@ -374,7 +374,7 @@ The example shows a three-day Hyundai Creta booking at NPR 6,500 per day, produc
 ![Figure 9 Mobile homepage](report-images/07-mobile.png)
 
 Figure 9 Mobile homepage
-At a 390-pixel viewport, navigation moves into a menu, the hero illustration is repositioned, and the search form becomes a compact stacked layout. Fleet cards become a single column.
+At a 390-pixel viewport, navigation moves into a menu, the vehicle photo is resized, and the search form becomes a compact stacked layout. Fleet cards become a single column.
 Browser checks found no horizontal page overflow at this width. The same booking and account features remain accessible. This visual check does not replace a complete accessibility audit.
 The booking history above shows the saved reference, rental dates, pickup city and total. Cancellation is offered only before the pickup date; cancelled reservations remain in history.
 
@@ -465,7 +465,7 @@ https://github.com/Anish00079/Himalayan-Wheels-
 
 ## Source use
 
-The cited documentation supports the technical design discussion. Package versions in the technology table come from the delivered dependency lockfile. Implementation descriptions and validation results refer to the delivered source and executed tests. The fleet data and rates are project examples and are not attributed to an external rental operator. The original interface illustrations are included as SVG code.
+The cited documentation supports the technical design discussion. Package versions in the technology table come from the delivered dependency lockfile. Implementation descriptions and validation results refer to the delivered source and executed tests. The fleet data and rates are project examples and are not attributed to an external rental operator. Vehicle photographs are sourced from Meromoto (https://meromoto.com/), with individual source links in Image-Credits.md.
 
 <!-- Page 20 -->
 # Appendix

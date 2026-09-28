@@ -65,7 +65,7 @@ These are process environment variables. `.env` files are not automatically load
 
 ```text
 src/
-  main.jsx              Screens, reusable components, original SVG artwork, API client
+  main.jsx              Screens, reusable components, vehicle photos, API client
   preview-api.js        Browser-only adapter for the labelled Pages preview
   styles.css            Desktop and mobile layouts
 shared/fleet.js          Sample fleet shared by the server seed and preview
@@ -114,4 +114,4 @@ See `docs/Himalayan-Wheels-Project-Report.pdf`. Its editable Markdown source is 
 - [Vite documentation](https://vite.dev/guide/)
 - [SQLite transactions](https://www.sqlite.org/lang_transaction.html)
 
-Vehicle and landscape illustrations are original SVG artwork included in the source; no external image or font service is required at runtime.
+Vehicle photos are sourced from [Meromoto](https://meromoto.com/) at the project owner's request. See `docs/Image-Credits.md` for individual source links. The photos are bundled locally under `public/cars/`; no external image or font service is required at runtime. The interface uses a neutral grey, black, and white palette.
